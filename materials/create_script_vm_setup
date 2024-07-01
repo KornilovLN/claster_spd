@@ -1,0 +1,267 @@
+#!/bin/bash
+
+# Скрипт автоматического развертывания инфраструктуры
+# Автор: ИмяАвтора
+# Версия: 1.0
+
+# Переменные
+DEBIAN_VERSION="9"
+SERVERS=("srs11" "srs12" "srs21" "srs22")
+ROUTERS=("router1" "router2" "router3")
+
+# Функция создания виртуальных машин
+create_vms() {
+  # Создание виртуальных машин для серверов
+  for server in "${SERVERS[@]}"; do
+    vboxmanage createvm --name "$server" --ostype "Debian_64" --register
+    # Настройка характеристик ВМ (память, диски и т.д.)
+  done
+
+  # Создание виртуальных машин для роутеров
+  for router in "${ROUTERS[@]}"; do
+    vboxmanage createvm --name "$router" --ostype "Linux26_64" --register
+    # Настройка характеристик ВМ
+  done
+}
+
+# Функция установки Debian
+install_debian() {
+  for server in "${SERVERS[@]}"; do
+    # Монтирование образа Debian
+    # Запуск процесса установки (preseed)
+    # Ожидание завершения установки
+  done
+}
+
+# Основной код
+create_vms
+install_debian
+
+# Дальнейшие шаги:
+# - Настройка сетевых интерфейсов
+# - Установка Docker
+# - Настройка маршрутизации
+# - Создание RAID-массива
+# - Базовая настройка безопасности
+
+#------------------------------------------------------------------
+"""
+Образ Debian может быть размещен на хост-машине или
+на отдельном HTTP/FTP-сервере в локальной сети.
+Рекомендуется использовать HTTP-сервер,
+так как это упростит процесс автоматической установки.
+
+Для этого можно создать простой HTTP-сервер на хост-машине с помощью Python:
+"""
+python3 -m http.server 8000 --directory /path/to/debian/iso
+
+"""
+Preseed-файл представляет собой текстовый файл в формате debconf,
+содержащий ответы на вопросы, которые обычно задаются во время
+установки Debian.
+Это позволяет полностью автоматизировать процесс установки.
+
+Пример preseed-файла для Debian 9:
+"""
+# Язык установки
+d-i debian-installer/locale string en_US
+
+# Клавиатура
+d-i console-setup/ask_detect boolean false
+d-i keyboard-configuration/xkb-keymap select us
+
+# Сетевые настройки
+d-i netcfg/get_hostname string debian
+d-i netcfg/get_domain string example.com
+
+# Зеркало для загрузки пакетов
+d-i mirror/http/hostname string httpredir.debian.org
+d-i mirror/http/directory string /debian
+d-i mirror/http/proxy string
+
+# ... и другие настройки
+
+"""
+Шаг 1 Способ установки
+Шаг 2 Используемый язык установки (RU)
+Шаг 3 Выбор местоположения Ukraine
+Шаг 4 Выбор дополнительной раскладки клавиатуры Русская (RU)
+Шаг 5 Выбор дополнительной раскладки клавиатуры (Сочетание клавиш) ctrl+shift
+Шаг 6 Настройка сети
+    Шаг 6.1 Продолжить если сбой
+    Шаг 6.2 Настройка сетевых интерфейсов - пропустить если сбой
+Шаг 7 Имя компьютера - одно из {srs11, srs12, srs21, srs22}
+Шаг 8 Настройка пароля пользователя root - <!18srs28> или остановка для ввода пароля
+Шаг 9 Настройка обычного пользователя srs - <Полное имя пользователя>
+Шаг 10 Настройка учётной записи пользователя srs - <Nik>
+Шаг 11 Настройка пароля пользователя srs - <Пароль>
+Шаг 12 Разметка диска <Вручную>
+Шаг 13 Выбор точки монтирования корневой папки
+    Подтверждение создания новой таблицы разделов
+    Выбор раздела монтирования корневого раздела
+    Создание нового корневого раздела <40 Gb> <первичный> B f <ext4> <В начале> /
+Шаг 14  Выбор раздела монтирования раздела var
+    Создание нового раздела <40 Gb> <первичный> B f <ext4> <В начале> /var
+    Окончание разметки диска
+Шаг 15  Выбор раздела подкачки <8 Gb> <вторичный> B f <swap> <В конце> /
+Шаг 16  Выбор раздела монтирования раздела tmp
+
+{
+Шаг 17  Выбор раздела монтирования раздела home
+Шаг 18  Выбор раздела монтирования раздела opt
+Шаг 19  Выбор раздела монтирования раздела root
+Шаг 20  Выбор раздела монтирования раздела boot
+Шаг 21  Выбор раздела монтирования раздела proc
+Шаг 22  Выбор раздела монтирования раздела sys
+Шаг 23  Выбор раздела монтирования раздела mnt
+Шаг 24  Выбор раздела монтирования раздела media
+Шаг 25  Выбор раздела монтирования раздела srv
+Шаг 26  Выбор раздела монтирования раздела lib
+Шаг 27  Выбор раздела монтирования раздела usr
+Шаг 28  Выбор раздела монтирования раздела lib64
+}
+
+Шаг 29 Установка загрузчика GRUB
+Шаг 30 Выбор загрузчика загрузки по умолчанию в GRUB
+
+Шаг 31 Авторизация пользователя
+"""
+# Язык установки
+d-i debian-installer/locale string ru_RU
+
+# Расположение
+d-i debian-installer/country string UA
+
+# Раскладки клавиатуры
+d-i keyboard-configuration/xkb-keymap select ru
+d-i keyboard-configuration/toggle select ctrl+shift
+
+# Настройка сети (если доступна)
+d-i netcfg/get_hostname string ${hostname}
+d-i netcfg/get_domain string example.com
+
+# Зеркало пакетов
+d-i mirror/http/hostname string httpredir.debian.org
+d-i mirror/http/directory string /debian
+d-i mirror/http/proxy string
+
+# Учетные записи
+d-i passwd/root-password-crypted password ${ROOT_PASSWORD}
+d-i passwd/user-fullname string ${USER_FULLNAME}
+d-i passwd/username string srs
+d-i passwd/user-password-crypted password ${USER_PASSWORD}
+
+# Разметка диска
+d-i partman-auto/disk string /dev/sda
+d-i partman-auto/method string crypto
+d-i partman-lvm/device_remove_lvm boolean true
+d-i partman-auto/choose_recipe select custom
+d-i partman-auto/expert_recipe string \
+      root :: \
+          40 1 1 ext4 \
+              $primary{ } $bootable{ } \
+              method{ format } format{ } \
+              use_filesystem{ } filesystem{ ext4 } \
+              mountpoint{ / } \
+          . \
+      var :: \
+          10 1 1 ext4 \
+              $primary{ } \
+              method{ format } format{ } \
+              use_filesystem{ } filesystem{ ext4 } \
+              mountpoint{ /var } \
+          . \
+      swap :: \
+          8192 1 1 swap \
+              $primary{ } \
+              method{ swap } format{ } \
+          .
+
+# Установка GRUB
+d-i grub-installer/only_debian boolean true
+d-i grub-installer/bootdev string default
+
+# Завершение установки
+d-i finish-install/reboot_in_progress note
+
+"""
+Этот preseed-файл содержит настройки, соответствующие описанным вами шагам:
+
+Язык, локаль, раскладка клавиатуры.
+Имя компьютера задается переменной ${hostname}.
+Пароли root и пользователя srs задаются переменными ${ROOT_PASSWORD} и ${USER_PASSWORD}.
+Полное имя пользователя srs задается ${USER_FULLNAME}.
+Разметка диска (/, /var, swap).
+Установка GRUB в режиме по умолчанию.
+
+Для использования этого preseed-файла его нужно скомпилировать в бинарный формат:
+"""
+
+debconf-set-selections -c preseed.cfg
+debconf-get-selections --installer > debconf.seed
+
+"""
+Затем передать debconf.seed при запуске установки Debian в виртуальной машине:
+"""
+
+vboxmanage startvm "$server" --type headless
+vboxmanage controlvm "$server" unpause
+vboxmanage controlvm "$server" linuxpreseed "file:///path/to/debconf.seed"
+
+"""
+Автоматическая установка без вмешательства
+
+При использовании preseed-файла установка Debian будет полностью
+автоматической, без необходимости вручную отвечать на вопросы или
+нажимать Yes/No.
+
+Процесс установки с preseed-файлом обычно выглядит следующим образом:
+
+1 Загрузка установочного образа Debian в виртуальную машину.
+2 При запросе preseed-файла указать путь к нему
+    (например, http://192.168.1.100:8000/preseed.cfg).
+3 Дождаться автоматической установки согласно настройкам
+    из preseed-файла.
+4 После завершения установки виртуальная машина перезагрузится
+    с установленной ОС Debian.
+
+Таким образом, функция install_debian в скрипте может быть
+реализована следующим образом:
+"""
+install_debian() {
+  for server in "${SERVERS[@]}"; do
+    # Монтировать образ Debian в виртуальную машину
+    vboxmanage startvm "$server" --type headless
+    
+    # Указать preseed-файл для автоматической установки
+    vboxmanage controlvm "$server" unpause
+    vboxmanage controlvm "$server" linuxpreseed "http://$HOST_IP:8000/preseed.cfg"
+    
+    # Ожидание завершения установки
+    wait_for_installation "$server"
+  done
+}
+
+"""
+Полный процесс монтирования образа в VirtualBox обычно выглядит так:
+
+1 Создать новую виртуальную машину:
+"""
+vboxmanage createvm --name $server --ostype "Debian_64" --register
+
+"""
+Задать параметры ВМ (ОЗУ, процессор и т.д.):
+"""
+vboxmanage modifyvm $server --memory 2048 --cpus 2 ...
+
+"""
+Подключить образ Debian ISO в качестве виртуального привода:
+"""
+vboxmanage storagectl $server --name "IDE Controller" --add ide
+vboxmanage storageattach $server --storagectl "IDE Controller" --port 0 --device 0 --type dvddrive --medium /path/to/debian.iso
+
+"""
+После этих действий образ Debian будет смонтирован в виртуальную
+машину, и ее можно запустить 
+командой vboxmanage startvm для начала процесса установки.
+"""

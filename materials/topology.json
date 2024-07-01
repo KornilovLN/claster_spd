@@ -1,0 +1,248 @@
+{
+  "global": {
+    "servers": ["srs11", "srs12", "srs21", "srs22"],
+    "root_password": "!18srs28",
+    "admin": {
+      "fullname": "administrator",
+      "username": "admin",
+      "password": "!18admin28"
+    },
+    "user": {
+      "fullname": "lnkornilov",
+      "username": "kornilov",
+      "password": "!18korn28"
+    }
+  },
+
+  "claster": [
+    {
+      "name": "srs11",
+      "type": "server",
+      "interfaces": ["eth0", "eth1"],
+      "description": "Сервер приложений 11",
+      "connections": [
+        {
+          "interface": "eth0",
+          "connectedTo": "vm_router1"
+        },
+        {
+          "interface": "eth1",
+          "connectedTo":  "vm_router2"
+        },
+        {
+          "interface": "mgmt",
+          "connectedTo":  "vm_router3"
+        }
+      ],
+      "target": {
+        "os": "Debian",
+        "version": "9"
+      },
+      "assignment": {
+        "docker": "yes"
+      }
+    },
+    {
+      "name": "srs12",
+      "type": "server",
+      "interfaces": ["eth0", "eth1"],
+      "description": "Сервер приложений 12",
+      "connections": [
+        {
+          "interface": "eth0",
+          "connectedTo": "vm_router1"
+        },
+        {
+          "interface": "eth1",
+          "connectedTo": "vm_router2"
+        },
+        {
+          "interface": "mgmt",
+          "connectedTo": "vm_router3"
+        }
+      ],
+      "target": {
+        "os": "Debian",
+        "version": "9"
+      },
+      "assignment": {
+        "docker": "yes"
+      }
+    },
+    {
+      "name": "srs21",
+      "type": "server",
+      "interfaces": ["eth0", "eth1"],
+      "description": "Сервер приложений 21",
+      "connections": [
+        {
+          "interface": "eth0",
+          "connectedTo": "vm_router1"
+        },
+        {
+          "interface": "eth1",
+          "connectedTo": "vm_router2"
+        },
+        {
+          "interface": "mgmt",
+          "connectedTo": "vm_router3"
+        }
+      ],
+      "target": {
+        "os": "Debian",
+        "version": "9"
+      },
+      "assignment": {
+        "docker": "yes"
+      }
+    },
+    {
+      "name": "srs22",
+      "type": "server",
+      "interfaces": ["eth0", "eth1"],
+      "description": "Сервер приложений 22",
+      "connections": [
+        {
+          "interface": "eth0",
+          "connectedTo": "vm_router1"
+        },
+        {
+          "interface": "eth1",
+          "connectedTo": "vm_router2"
+        },
+        {
+          "interface": "mgmt",
+          "connectedTo": "vm_router3"
+        }
+      ],
+      "target": {
+        "os": "Debian",
+        "version": "9"
+      },
+      "assignment": {
+        "docker": "yes"
+      }
+    }
+  ],
+
+
+  "storage": {
+    "name": "storage",
+    "type": "raid_array",
+    "level": "raid10",
+    "interfaces": ["iscsi1", "iscsi2"],
+    "description": "Внешний RAID-массив",
+    "connections": [
+      {
+        "interface": "iscsi1",
+        "connectedTo": ["srs11", "srs12"]
+      },
+      {
+        "interface": "iscsi2",
+        "connectedTo": ["srs21", "srs22"]
+      },
+      {
+        "interface": "eth0",
+        "connectedTo": ["vm_router3"]
+      }
+    ],
+    "Comment": "все 4 сервера подключаются как к адаптеру 1, так и ко 2-му"
+  }, 
+
+  "admin_pc": {
+  "name": "admin_pc",
+  "type": "workstation",
+  "os": "Ubuntu",
+  "desktop": "XFCE",
+  "software": [
+      "putty",
+      "winscp",
+      "filezilla",
+      "mc",
+      "python3",
+      "git",
+      "vim",
+      "xed",
+      "vscode",
+      "nodejs",
+      "tmux",
+      "docker"
+    ]
+  },
+
+  "user_pc": {
+    "name": "user_pc",
+    "type": "workstation",
+    "os": "Ubuntu",
+    "desktop": "XFCE",
+    "software": [
+      "libreoffice",
+      "mc",
+      "python3",
+      "git",
+      "vim",
+      "xed",
+      "vscode",
+      "nodejs"
+    ]
+  },
+
+  "vm_router1": {
+    "name": "vm_router1",
+    "type": "router",
+    "os": "Vyos",
+    "interfaces": ["eth0", "eth1"],
+    "description": "Маршрутизатор серверов к внешней сети 1",
+    "connections": [
+      {
+        "interface": "eth0",
+        "connectedTo": ["srs11", "srs12", "srs21", "srs22"]
+      },
+      {
+        "interface": "eth1",
+        "connectedTo": []
+      }
+    ]
+  },
+
+  "vm_router2": {
+    "name": "vm_router2",
+    "type": "router",
+    "os": "Vyos",
+    "interfaces": ["eth0", "eth1", "eth2"],
+    "description": "Маршрутизатор серверов к внешней сети 2",
+    "connections": [
+      {
+        "interface": "eth0",
+        "connectedTo": ["srs11", "srs12", "srs21", "srs22"]
+      },
+      {
+        "interface": "eth1",
+        "connectedTo": []
+      }
+    ]    
+  },
+
+  "vm_router3": {
+    "name": "vm_router3",
+    "type": "router",
+    "os": "Vyos",
+    "interfaces": ["eth0", "eth1", "eth2"],
+    "description": "Маршрутизатор серверов к внутренней сети 3",
+    "connections": [
+      {
+        "interface": "eth0",
+        "connectedTo": ["srs11", "srs12", "srs21", "srs22"]
+      },
+      {
+        "interface": "eth1",
+        "connectedTo": ["Внутренняя сеть", "Управление RAID-массивом", "admin_pc", "user_pc"]
+      },
+      {
+        "interface": "eth2",
+        "connectedTo": ["srs11:mgmt", "srs12:mgmt", "srs21:mgmt", "srs22:mgmt"]
+      }
+    ]    
+  }
+
+}

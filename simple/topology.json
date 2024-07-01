@@ -1,0 +1,71 @@
+{
+    "global": {
+      "servers": ["srs1"],
+      "root_password": "!18srs28",
+      "admin": {
+        "fullname": "administrator",
+        "username": "admin",
+        "password": "!18admin28"
+      },
+      "user": {
+        "fullname": "lnkornilov",
+        "username": "kornilov",
+        "password": "!18korn28"
+      }
+    },
+  
+    "claster": [
+      {
+        "name": "srs1",
+        "type": "server",
+        "hard":{
+            "ram": "4",
+            "rom": "20",
+            "cpu": "2",
+            "scsi": "40",
+            "vram": "64",
+            "video":"1920x1080"
+        },
+        "interfaces": ["eth0"],
+        "description": "Сервер приложений 1",
+        "connections": [
+          {
+            "interface": "eth0",
+            "connectedTo": "vm_router1"
+          }
+        ],
+        "target": {
+          "os": "Debian",
+          "version": "9"
+        },
+        "assignment": {
+          "docker": "yes",
+          "python3": "yes"
+        }
+      }
+    ],
+  
+    "vm_router1": {
+      "name": "vm_router1",
+      "type": "router",
+      "os": "Vyos",
+      "hard":{
+            "ram": "512",
+            "rom": "16",
+            "cpu": "1",
+            "sata_hdd": "8"
+        },
+      "interfaces": ["eth0", "eth1"],
+      "description": "Маршрутизатор сервера к внешней сети",
+      "connections": [
+        {
+          "interface": "eth0",
+          "connectedTo": ["srs1"]
+        },
+        {
+          "interface": "eth1",
+          "connectedTo": []
+        }
+      ]
+    }
+  }

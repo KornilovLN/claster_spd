@@ -1,0 +1,64 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+    config.vm.box = "bento/ubuntu-20.04"
+  
+    # Первая виртуальная машина ---------------------------------------------
+    config.vm.define "vm1" do |vm1|
+      vm1.vm.hostname = "vm1"
+      vm1.vm.network "private_network", ip: "192.168.56.10"
+      vm1.vm.synced_folder "shared_folder", "/shared_folder"
+      # Копирование counter.py в домашнюю директорию vm1
+      vm1.vm.provision "file", source: "sender.py", destination: "~/sender.py"
+
+      # Настройка провайдера виртуальной машины (VirtualBox)
+      vm1.vm.provider :virtualbox do |vb|
+            vb.name = "vm1"
+            vb.memory = 4096
+            vb.cpus = 1
+            vb.customize ["createhd", "--filename", "disk_vm1.vdi", "--size", 10 * 1024]
+            vb.customize ["storageattach", :id, "--storagectl", "SATA Controller", "--port", 1, "--device", 0, "--type", "hdd", "--medium", "disk_vm1.vdi"]    
+      end
+
+      # Провижнинг (настройка) виртуальной машины через shell скрипт
+      vm1.vm.provision "shell", inline: <<-SHELL
+            apt-get update
+            apt install -y curl python3
+            bash -c "echo '172.16.0.1 sdn.dc.cns.atom registry.dc.cns.atom' >> /etc/hosts"
+            bash -c "cd /vagrant/;./net-install.sh setup"
+            apt-get update
+            apt-get install -y docker.io git
+        SHELL
+      end
+
+    end # --------------------------------------------------------------------
+  
+    # Вторая виртуальная машина  ---------------------------------------------
+    config.vm.define "vm2" do |vm2|
+      vm2.vm.hostname = "vm2"
+      vm2.vm.network "private_network", ip: "192.168.56.11"
+      vm2.vm.synced_folder "shared_folder", "/shared_folder"
+      # Копирование receiver.py в домашнюю директорию vm2
+      vm2.vm.provision "file", source: "receiver.py", destination: "~/receiver.py"
+
+      # Настройка провайдера виртуальной машины (VirtualBox)
+      vm2.vm.provider :virtualbox do |vb|
+            vb.name = "vm2"
+            vb.memory = 4096
+            vb.cpus = 1
+            vb.customize ["createhd", "--filename", "disk_vm2.vdi", "--size", 10 * 1024]
+            vb.customize ["storageattach", :id, "--storagectl", "SATA Controller", "--port", 1, "--device", 0, "--type", "hdd", "--medium", "disk_vm2.vdi"]    
+      end
+      
+      # Провижнинг (настройка) виртуальной машины через shell скрипт
+      vm2.vm.provision "shell", inline: <<-SHELL
+            apt-get update
+            apt install -y curl python3
+            bash -c "echo '172.16.0.1 sdn.dc.cns.atom registry.dc.cns.atom' >> /etc/hosts"
+            bash -c "cd /vagrant/;./net-install.sh setup"
+            apt-get update
+            apt-get install -y docker.io git
+        SHELL
+      end # --------------------------------------------------------------------
+  end

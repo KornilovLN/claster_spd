@@ -1,0 +1,311 @@
+/*
+ * bash
+ */
+.language-bash {
+    color: #008080;
+}
+/* #!/bin/bash */
+.language-bash .token.shebang {
+    color: #888;
+    background: #fff;
+}
+/* пунктуация */
+.language-bash .token.punctuation {
+    color: #f00;
+}
+.language-bash .token.operator {
+    color: #f00;
+}
+.language-bash .token.descriptor {
+    color: #f00;
+}
+/* комментарий */
+.language-bash .token.comment {
+    color: #888;
+}
+/* строка */
+.language-bash .token.string {
+    color: #0080ff;
+}
+/* число */
+.language-bash .token.number {
+    color: #d0d;
+}
+/* boolean */
+.language-bash .token.boolean {
+    color: #f77;
+}
+/* ключевое слово */
+.language-bash .token.keyword {
+    color: #93f;
+}
+/* builtin */
+.language-bash .token.builtin {
+    color: #c60;
+}
+/* команда */
+.language-bash .token.command {
+    color: #c60;
+}
+/* опция команды */
+.language-bash .token.parameter {
+    color: #008080;
+}
+/* объявление переменной */
+.language-bash .token.assign-left,
+.language-bash .token.for-or-select,
+.language-bash .token.local-var-def {
+    color: #008080;
+}
+/* значение переменной */
+.language-bash .token.variable {
+    color: #808000;
+}
+/* переменная окружения */
+.language-bash .token.environment {
+    color: #008000;
+}
+/* command substitution $(...) */
+.language-bash .token.substitution {
+    color: #0c0;
+    background: #efe;
+}
+/* shell expansion ${...} */
+.language-bash .token.shell-expansion {
+    color: #808000;
+    background: #ffe;
+}
+/* arithmetics $((...)) */
+.language-bash .token.arithmetics {
+    color: #0c0;
+    background: #fee;
+}
+
+/*
+ * xml
+ */
+.language-xml {
+    color: #323232;
+}
+.language-xml .token.prolog {
+    color: #93f;
+}
+/* пунктуация */
+.language-xml .token.punctuation {
+    color: #f00;
+}
+/* комментарий */
+.language-xml .token.comment {
+    color: #888;
+}
+/* тег */
+.language-xml .token.tag {
+    color: #0080c0;
+}
+/* тег, < и > */
+.language-xml .token.tag .token.punctuation {
+    color: #0080c0;
+}
+/* имя атрибута */
+.language-xml .token.attr-name {
+    color: #808000;
+}
+/* значение атрибута */
+.language-xml .token.attr-value {
+    color: #0080ff;
+}
+.language-xml .token.attr-value .token.punctuation:not(.attr-equals) {
+    color: #0080ff;
+}
+
+/*
+ * css
+ */
+.language-css {
+    color: #808000;
+}
+/* пунктуация */
+.language-css .token.punctuation {
+    color: #f00;
+}
+/* селектор */
+.language-css .token.selector {
+    color: #93f;
+}
+/* комментарий */
+.language-css .token.comment {
+    color: #888;
+}
+/* строка */
+.language-css .token.string {
+    color: #0080ff;
+}
+/* свойство */
+.language-css .token.property {
+    color: #0a0;
+}
+.language-css .token.rule {
+    color: #c0c;
+}
+/* URL */
+.language-css .token.url {
+    color: #0080ff;
+}
+/* функция */
+.language-css .token.function {
+    color: #c0c;
+}
+/* important */
+.language-css .token.important {
+    color: #c60;
+}
+
+/*
+ * TypeScript
+ */
+.language-ts {
+    color: #008080;
+}
+/* пунктуация и операторы */
+.language-ts .token.punctuation {
+    color: #f00;
+}
+.language-ts .token.operator {
+    color: #f00;
+}
+/* комментарий */
+.language-ts .token.comment {
+    color: #888;
+}
+/* строка */
+.language-ts .token.string,
+.language-ts .token.string-property {
+    color: #0080ff;
+}
+/* ключевое слово */
+.language-ts .token.keyword {
+    color: #93f;
+}
+/*  базовые типы number, string */
+.language-ts .token.base-type {
+    color: #808000;
+}
+/*  пользовательские типы данных */
+.language-ts .token.user-type {
+    color: #0a0;
+}
+/*  утилиты */
+.language-ts .token.util-type {
+    color: #0a0;
+}
+/* имя класса  */
+.language-ts .token.class-name {
+    color: #0a0;
+}
+/* generic type */
+.language-ts .token.generic-type {
+    color: #0a0;
+}
+/* имя функции */
+.language-ts .token.function {
+    color: #0080c0;
+}
+/* число */
+.language-ts .token.number {
+    color: #e0e;
+}
+/* true, false */
+.language-ts .token.boolean {
+    color: #c60;
+}
+/* регулярное выражение */
+.language-ts .token.regex {
+    color: #c60;
+}
+/* типы null, undefined, void */
+.language-ts .token.null-void-type {
+    color: #808000;
+}
+
+/*
+ * TSX
+ */
+.language-tsx {
+    color: #008080;
+}
+/* пунктуация и операторы */
+.language-tsx .token.punctuation {
+    color: #f00;
+}
+.language-tsx .token.operator {
+    color: #f00;
+}
+/* комментарий */
+.language-tsx .token.comment {
+    color: #888;
+}
+/* строка */
+.language-tsx .token.string {
+    color: #0080ff;
+}
+/* ключевое слово */
+.language-tsx .token.keyword {
+    color: #93f;
+}
+/*  базовые типы number, string */
+.language-tsx .token.base-type {
+    color: #808000;
+}
+/*  пользовательские типы данных */
+.language-tsx .token.user-type {
+    color: #0a0;
+}
+/* имя функции */
+.language-tsx .token.function {
+    color: #0080c0;
+}
+/* число */
+.language-tsx .token.number {
+    color: #e0e;
+}
+/* true, false */
+.language-tsx .token.boolean {
+    color: #c60;
+}
+/* регулярное выражение */
+.language-tsx .token.regex {
+    color: #c60;
+}
+/* типы null, undefined, void */
+.language-tsx .token.null-void-type {
+    color: #808000;
+}
+/* jsx-тег */
+.language-tsx .token.tag {
+    color: #a0a;
+}
+/* простой текст */
+.language-tsx .token.plain-text {
+    color: #333;
+}
+/* имя атрибута jsx */
+.language-tsx .token.attr-name {
+    color: #808000;
+}
+/* значение атрибута jsx */
+.language-tsx .token.attr-value {
+    color: #0080ff;
+}
+/* дефолтный цвет скрипта внутри jsx-тега */
+.language-tsx .token.tag .token.script {
+    color: #008080;
+}
+.language-tsx .token.tag .token.punctuation {
+    color: #999;
+}
+.language-tsx .token.tag .token.script .token.punctuation {
+    color: #f00;
+}
+.language-tsx .token.tag .token.script .token.script-punctuation.punctuation {
+    color: #999;
+}

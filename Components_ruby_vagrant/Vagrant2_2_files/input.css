@@ -1,0 +1,27 @@
+@font-face {
+    font-family: "InputRegular";
+    src: url("../../font/input/Input-Regular.ttf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: "InputBold";
+    src: url("../../font/input/Input-Bold.ttf") format("truetype");
+    font-style: normal;
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: "InputItalic";
+    src: url("../../font/input/InputItalic.ttf") format("truetype");
+    font-style: italic;
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: "InputBoldItalic";
+    src: url("../../font/input/InputBoldItalic.ttf") format("truetype");
+    font-style: italic;
+    font-weight: bold;
+}

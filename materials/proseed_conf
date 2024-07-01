@@ -1,0 +1,210 @@
+"""
+Этот скрипт состоит из двух основных функций:
+generate_preseed - генерирует preseed-файл для указанного сервера 
+                   на основе данных из topology.json.
+                   Файл сохраняется как preseed-$server.cfg.
+
+generate_network_config - генерирует настройки сетевых интерфейсов для сервера
+                          на основе информации из "connections".
+                          На данный момент IP-адреса, маски и шлюзы
+                          являются заглушками и требуют реализации логики
+                          определения реальных значений.
+
+В основной части скрипта вызывается generate_preseed для каждого сервера
+из списка SERVERS.
+
+Для работы скрипта требуется утилита jq для парсинга JSON.
+Ее можно установить через apt-get install jq.
+
+Текущая реализация является базовой и требует дополнительной доработки,
+особенно в части определения IP-адресов
+и других сетевых настроек на основе информации из "connections".
+Но она демонстрирует общий подход к генерации индивидуальных preseed-файлов.
+"""
+
+#!/bin/bash
+
+# Вызов скрипта в терминале
+# ./proseed_conf.sh /path/to/topology.json
+
+if ! command -v jq &> /dev/null; then
+    echo "Утилита jq не установлена. Установите ее с помощью 'apt-get install jq'"
+    exit 1
+fi
+
+# Проверка наличия аргумента с путем к topology.json
+if [ -z "$1" ]; then
+  echo "Использование: $0 <путь_к_topology.json>"
+  exit 1
+fi
+
+TOPOLOGY_FILE="$1"
+
+# Подключение файлов с функциями
+source hosts_config.sh
+source interfaces_config.sh
+
+
+# Функция для генерации preseed-файла для указанного сервера
+generate_preseed() {
+  local server="$1"
+  local topology_file="$2"
+  local preseed_file="preseed-$server.cfg"
+
+  # Получение данных о сервере из topology.json
+  server_data=$(jq --arg name "$server" '.claster[] | select(.name == $name)' "$topology_file" 2>/dev/null)
+  if [ $? -ne 0 ]; then
+      echo "Ошибка при парсинге JSON для сервера $server"
+      return 1
+  fi
+
+  hostname=$(echo "$server_data" | jq -r '.name')
+  os=$(echo "$server_data" | jq -r '.target.os')
+  version=$(echo "$server_data" | jq -r '.target.version')
+  install_docker=$(echo "$server_data" | jq -r '.assignment.docker')
+
+  # Генерация содержимого preseed-файла
+  cat > "$preseed_file" << EOF
+
+# Язык установки
+d-i debian-installer/locale string ru_RU
+
+# Расположение
+d-i debian-installer/country string UA
+
+# Раскладки клавиатуры
+d-i keyboard-configuration/xkb-keymap select ru
+d-i keyboard-configuration/toggle select ctrl+shift
+
+# Имя компьютера
+d-i netcfg/get_hostname string $hostname
+
+# Целевая ОС и версия
+d-i mirror/suite string $os$version
+
+# Зеркало пакетов
+d-i mirror/http/hostname string httpredir.debian.org
+d-i mirror/http/directory string /debian
+d-i mirror/http/proxy string
+
+# Учетные записи
+d-i passwd/root-password-crypted password ${ROOT_PASSWORD}
+d-i passwd/user-fullname string ${USER_FULLNAME}
+d-i passwd/username string srs
+d-i passwd/user-password-crypted password ${USER_PASSWORD}
+
+# Настройка сетевых интерфейсов ???????????
+# $(generate_network_config "$server_data")
+
+# Разметка диска
+d-i partman-auto/disk string /dev/sda
+d-i partman-auto/method string crypto
+d-i partman-lvm/device_remove_lvm boolean true
+d-i partman-auto/choose_recipe select custom
+d-i partman-auto/expert_recipe string \
+      root :: \
+          40 1 1 ext4 \
+              $primary{ } $bootable{ } \
+              method{ format } format{ } \
+              use_filesystem{ } filesystem{ ext4 } \
+              mountpoint{ / } \
+          . \
+      var :: \
+          10 1 1 ext4 \
+              $primary{ } \
+              method{ format } format{ } \
+              use_filesystem{ } filesystem{ ext4 } \
+              mountpoint{ /var } \
+          . \
+      swap :: \
+          8192 1 1 swap \
+              $primary{ } \
+              method{ swap } format{ } \
+          .
+
+# Установка GRUB
+d-i grub-installer/only_debian boolean true
+d-i grub-installer/bootdev string default
+
+# Завершение установки
+d-i finish-install/reboot_in_progress note
+
+# Установка Docker (если требуется)
+$(if [ "$install_docker" == "yes" ]; then echo 'd-i pkgsel/include string docker.io'; fi)
+
+# Монтирование раздела
+d-i partman/mount_style select uuid
+d-i partman-auto/disk string /dev/sdc
+d-i partman-auto/method string regular
+d-i partman-auto/choose_recipe select atomic
+d-i partman-partitioning/confirm_write_new_label boolean true
+d-i partman/choose_partition select finish
+d-i partman/confirm boolean true
+d-i partman/confirm_nooverwrite boolean true
+
+# Установка пакета firmware-bnx2
+d-i preseed/late_command string \\
+    in-target \\
+        mount /dev/sdc1 /mnt; \\
+        cp /mnt/firmware-bnx2_20161130-4_all.deb /tmp; \\
+        chroot /target dpkg -i /tmp/firmware-bnx2_20161130-4_all.deb || true;
+
+# Подтверждение установки
+d-i preseed/late_command string \\
+    in-target \\
+        echo "firmware-bnx2 firmware-bnx2/pending_mod_reboot boolean true" | debconf-set-selections
+
+# Настройка имени сервера в /etc/hosts
+$(generate_hostname_config "$hostname")
+
+# Дополнительные настройки /etc/hosts
+$(generate_hosts_config)
+
+# Настройка /etc/network/interfaces
+$(generate_interfaces_config)
+
+EOF
+}
+
+
+# Функция для генерации настроек сетевых интерфейсов
+generate_network_config() {
+  local server_data="$1"
+  local interfaces=$(echo "$server_data" | jq -r '.interfaces | join(" ")')
+  local config=""
+
+  for interface in $interfaces; do
+    local conn_data=$(echo "$server_data" | jq --arg iface "$interface" '.connections[] | select(.interface == $iface)')
+    local connected_to=$(echo "$conn_data" | jq -r '.connectedTo')
+
+    # Определение IP-адреса, маски подсети и шлюза на основе connectedTo
+    local ip_address="192.168.1.100"  # Пример, требуется реализация
+    local netmask="255.255.255.0"     # Пример, требуется реализация
+    local gateway="192.168.1.1"       # Пример, требуется реализация
+
+    config+="
+# Настройка $interface
+d-i netcfg/choose_interface select $interface
+d-i netcfg/disable_dhcp boolean true
+d-i netcfg/get_ipaddress string $ip_address
+d-i netcfg/get_netmask string $netmask
+d-i netcfg/get_gateway string $gateway
+d-i netcfg/confirm_static boolean true"
+  done
+
+  echo "$config"
+}
+
+
+# Основной код
+for server in "${SERVERS[@]}"; do
+    if ! generate_preseed "$server" "$TOPOLOGY_FILE"; then
+        echo "Ошибка при генерации preseed-файла для сервера $server"
+    fi
+done
+
+# Проверка наличия переменных ROOT_PASSWORD, USER_FULLNAME и USER_PASSWORD:
+if [ -z "${ROOT_PASSWORD}" ] || [ -z "${USER_FULLNAME}" ] || [ -z "${USER_PASSWORD}" ]; then
+    echo "Одна или несколько переменных (ROOT_PASSWORD, USER_FULLNAME, USER_PASSWORD) не заданы"
+    exit 1
+fi

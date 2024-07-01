@@ -1,0 +1,818 @@
+@charset "utf-8";
+
+/*
+ * КАРКАС СТРАНИЦЫ
+ * ШАПКА САЙТА
+ * ГЛАВНОЕ МЕНЮ
+ * ЦЕНТРАЛЬНАЯ КОЛОНКА
+ * - РАЗНЫЕ СТИЛИ
+ * - КАТАЛОГ ТОВАРОВ
+ * ЛЕВАЯ И ПРАВАЯ КОЛОНКА
+ * - ЛЕВАЯ КОЛОНКА
+ * - ПРАВАЯ КОЛОНКА
+ * ПОДВАЛ САЙТА
+ * MEDIA-ЗАПРОСЫ
+ */
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+body {
+    margin: 0;
+    padding: 0;
+    font: 14px/1.2 Arial, sans-serif;
+    color: #323232;
+    overflow-y: scroll;
+    height: 100%;
+}
+
+a {
+    color: #5390cc;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+/*
+ * КАРКАС СТРАНИЦЫ
+ */
+.wrapper {
+    max-width: 1250px;
+    margin: 0 auto;
+    padding: 0 5px;
+    box-sizing: border-box;
+}
+body > .wrapper {
+    overflow: hidden;
+    padding-bottom: 40px;
+}
+/* шапка */
+#header {
+    height: 80px;
+    background-color: #395985;
+    /* background-image: url('../img/bg-header.png'); */
+    background-image: url('../img/bg-header-2.jpg');
+    background-size: cover;
+    background-position: center;
+}
+    #header > .wrapper {
+        height: 80px;
+    }
+        #header > .wrapper > div {
+            float: left;
+            height: 80px;
+        }
+        #header > .wrapper > div:first-child { /* название сайта */
+            width: 15%;
+        }
+        #header > .wrapper > div:last-child { /* поиск по блогу */
+            width: 85%;
+            position: relative;
+        }
+            #header > .wrapper > div:first-child > span {
+                display: block;
+                color: #5390cc;
+                font-weight: bold;
+                letter-spacing: 2px;
+                text-shadow: 0.5px 0.5px 0.5px #fff;
+                height: 40px;
+            }
+            #header > .wrapper > div:first-child > span:first-child {
+                font-size: 40px;
+            }
+            #header > .wrapper > div:first-child > span:last-child {
+                font-size: 25px;
+            }
+
+            #header > .wrapper form {
+                overflow: hidden;
+                margin-top: 27px;
+            }
+                #header > .wrapper form input {
+                    float: left;
+                    box-sizing: border-box;
+                }
+                #header > .wrapper form input[name="query"] {
+                    font-size: 14px;
+                    line-height: 14px;
+                    padding: 7px;
+                    width: 100%;
+                    height: 31px;
+                    border: 2px solid #5390cc;
+                    background-color: transparent;
+                    color: #FFFFFF;
+                    outline: none;
+                }
+                #header > .wrapper form input[name="query"]::-webkit-input-placeholder {color:#FFFFFF;}
+                #header > .wrapper form input[name="query"]::-moz-placeholder          {color:#FFFFFF;}/* Firefox 19+ */
+                #header > .wrapper form input[name="query"]:-moz-placeholder           {color:#FFFFFF;}/* Firefox 18- */
+                #header > .wrapper form input[name="query"]:-ms-input-placeholder      {color:#FFFFFF;}
+
+                #header > .wrapper form input[type="submit"] {
+                    background: #5390cc url(../img/search.png) center center no-repeat;
+                    width: 31px;
+                    height: 31px;
+                    border: none;
+                    margin-left: -31px;
+                    cursor: pointer;
+                }
+
+        /* результаты поиска, запрос с использованием XmlHttpRequest */
+        #top-search > div {
+            position: absolute;
+            left: 0;
+            top: 65px;
+            width: 100%;
+        }
+            #top-search > div > div {
+                width: 100%;
+                box-sizing: border-box;
+                padding: 3px 10px;
+                background: #323232;
+                position: absolute;
+                z-index: 3;
+                box-shadow: 0 0 10px #000;
+            }
+                #top-search > div > div > span {
+                    display: block;
+                    position: absolute;
+                    background: url('../img/close.png');
+                    width: 20px;
+                    height: 20px;
+                    right: 4px;
+                    top: 4px;
+                    border: 1px solid #fff;
+                    cursor: pointer;
+                }
+                #top-search > div > div > div { /* отдельная строчка результатов поиска */
+                    border-bottom: 1px dashed #d1d1d1;
+                    padding: 7px 0;
+                }
+                    #top-search > div > div > div > a {
+                        display: block;
+                        font-size: 12px;
+                        line-height: 12px;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        color: #8dc5fd;
+                        padding-bottom: 5px;
+                    }
+                    #top-search > div > div > div > p {
+                        color: #d1d1d1;
+                        font-size: 12px;
+                    }
+                    #top-search > div > div > div:first-of-type > a {
+                        margin-right: 25px;
+                    }
+                #top-search > div > div > div:last-child {
+                    border-bottom: none;
+                }
+
+/* главное меню */
+#main-menu {
+    background: #323232;
+}
+#wrap {
+    width: 100%;
+    float: left;
+}
+/* центральная колонка */
+#content {
+    margin: 0 250px 0 250px;
+    padding: 20px;
+}
+/* левая колонка */
+#left {
+    width: 250px;
+    float: left;
+    margin-left: -100%;
+}
+/* правая колонка */
+#right {
+    width: 250px;
+    float: left;
+    margin-left: -250px;
+}
+/* подвал */
+#footer {
+    width: 100%;
+    height: 40px;
+    background: #2f3133;
+    position: absolute;
+    bottom: 0;
+}
+
+/*
+ * ГЛАВНОЕ МЕНЮ
+ */
+#menu {
+
+}
+    #menu ul {
+        margin: 0px;
+        padding: 0px;
+        list-style: none;
+        background: #323232;
+    }
+        #menu > ul > li {
+            float: left;
+        }
+        #menu > ul > li > ul {
+            top: 100%;
+            left: 0;
+        }
+    #menu li {
+        position: relative;
+    }
+    #menu a {
+        display: block;
+        white-space: nowrap;
+    }
+            #menu ul li li ul {
+                top: 0;
+                left: 100%;
+            }
+        #menu ul ul {
+            visibility: hidden;
+            position: absolute;
+            z-index: 2;
+            min-width: 240px;
+        }
+        #menu li:hover > ul {
+            visibility: visible;
+        }
+    #menu:after {
+        content: "";
+        clear: both;
+        display: block;
+    }
+    #menu a {
+        text-decoration: none;
+        color: #fff;
+        padding: 8px 25px;
+        font-size: 18px;
+    }
+    #menu a:hover {
+        background: #5390cc;
+    }
+        #menu > ul > li > a {
+            border-right: 1px solid #4f5254;
+        }
+        #menu > ul > li:first-child > a {
+            border-left: 1px solid #4f5254;
+        }
+        #menu > ul > li > ul > li > a, #menu > ul > li > ul > li > ul > li > a {
+            border-top: 1px solid #4f5254;
+            padding: 7px 10px;
+        }
+/* анимация меню */
+/*
+#menu > ul > li > ul,
+#menu ul li li ul {
+    -webkit-transition: all 200ms;
+    -moz-transition: all 200ms;
+    -o-transition: all 200ms;
+    transition: all 200ms;
+}
+#menu > ul > li > ul {
+    top: 200%;
+    opacity: 0;
+}
+#menu > ul > li:hover > ul {
+    top: 100%;
+    opacity: 1;
+}
+#menu ul li ul li ul {
+    left: 200%;
+    opacity: 0;
+}
+#menu ul li ul li:hover ul {
+    left: 100%;
+    opacity: 1;
+}
+*/
+
+/*
+ * ЦЕНТРАЛЬНАЯ КОЛОНКА
+ */
+
+#content h1, #content h2, #content h3, #content h4, #content h5 {
+    margin: 15px 0;
+    color: #5390cc;
+    font-weight: normal;
+}
+#content h1 {
+    font-size: 25px;
+}
+#content h2 {
+    font-size: 21px;
+}
+#content h3 {
+    font-size: 17px;
+}
+#content h4 {
+    font-size: 15px;
+}
+#content h5 {
+    font-size: 14px;
+    color: #5390cccc;
+}
+#content p {
+    margin: 15px 0;
+}
+#content ul, #content ol {
+    margin: 15px 0 15px 35px;
+}
+#content ul.space > li, #content ol.space > li {
+    margin: 15px 0 15px 0;
+}
+    #content ul > li > ul, #content ol > li > ol, #content ol > li > ul, #content ul > li > ol {
+        margin: 5px 0 5px 20px;
+    }
+#content img {
+    max-width: 100%;
+}
+    #content a.zoom > img {
+        max-width: 60%;
+    }
+#content strong {
+    color: #000000;
+    font-weight: 500;
+    text-shadow: 1px 1px 1px #ccc;
+}
+
+#content blockquote {
+    border-left: 6px solid #5390cc;
+    font-size: 13px;
+    margin: 1em 0 1em 3em;
+    padding-left: 24px;
+    position: relative;
+    color: #5390cc;
+}
+#content blockquote:before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: -6px;
+    height: 25px;
+    background-color: #fff;
+    width: 6px;
+    margin-top: -1em;
+}
+#content blockquote:after {
+    content: "”";
+    position: absolute;
+    top: 50%;
+    left: -13px;
+    color: #5390cc;
+    font-size: 40px;
+    font-weight: bold;
+    line-height: 20px;
+}
+#content blockquote ul {
+    margin-left: 1em;
+}
+
+hr {
+    border: none; /* Убираем границу для браузера Firefox */
+    color: #d1d1d1; /* Цвет линии для остальных браузеров */
+    background-color: #d1d1d1; /* Цвет линии для браузера Firefox и Opera */
+    height: 1px; /* Толщина линии */
+}
+
+#content .note,
+#content .post-scriptum,
+#content .post-post-scriptum,
+#content .liked-posts {
+    font-size: 13px;
+    color: #646464;
+    margin: 25px 0;
+    border: 0.5px solid #d1d1d1;
+    background: #f5f5f5;
+    padding: 17px 10px 10px 10px;
+    position: relative;
+}
+#content .liked-posts {
+    border: 0.5px solid #5390cc;
+    background: #fff;
+}
+#content .note:before,
+#content .post-scriptum:before,
+#content .post-post-scriptum:before,
+#content .liked-posts:before {
+    color: #969696;
+    font-size: 14px;
+    background: #ffffff;
+    border: 0.5px solid #d1d1d1;
+    padding: 1px 12px 2px 12px;
+    border-radius: 10px;
+    position: absolute;
+    top: -11px;
+}
+#content .liked-posts:before {
+    color: #5390cc;
+    border: 0.5px solid #5390cc;
+}
+#content .note:before {
+    content: "Примечание";
+}
+#content .post-scriptum:before {
+    content: "Post Scriptum";
+}
+#content .post-post-scriptum:before {
+    content: "Post Post Scriptum";
+}
+#content .liked-posts:before {
+    content: "Похожие записи";
+}
+    #content .note pre,
+    #content .post-scriptum pre,
+    #content .post-post-scriptum pre {
+        font-size: 13px;
+        background: #ffffff;
+    }
+    #content .note p, #content .note pre,
+    #content .note ul, #content .note ol,
+    #content .post-scriptum p, #content .post-scriptum pre,
+    #content .post-scriptum ul, #content .post-scriptum ol,
+    #content .post-post-scriptum p, #content .post-post-scriptum pre,
+    #content .post-post-scriptum ul, #content .post-post-scriptum ol {
+        margin: 9px 0;
+    }
+    #content .note ul, #content .note ol,
+    #content .post-scriptum ul, #content .post-scriptum ol,
+    #content .post-post-scriptum ul, #content .post-post-scriptum ol {
+        margin-left: 13px;
+    }
+    #content .note :first-child,
+    #content .post-scriptum :first-child,
+    #content .post-post-scriptum :first-child,
+    #content .liked-posts :first-child {
+        margin-top: 1px;
+    }
+    #content .note :last-child,
+    #content .post-scriptum :last-child,
+    #content .post-post-scriptum :last-child,
+    #content .liked-posts :last-child {
+        margin-bottom: 0;
+    }
+
+#content p .number {
+    background: #5390cc;
+    font-weight: bold;
+    color: #fff;
+    border-radius: 50%;
+    padding: 0 4px;
+}
+
+/*
+ * РАЗНЫЕ СТИЛИ, ИСПОЛЬЗУЮТСЯ ВЕЗДЕ
+ */
+
+#content :not(pre) > code {
+    color: #0000BB;
+}
+#content pre {
+    /*font-family: "DejaVuSansMono", monospace;*/
+    /*font-family: "InputRegular", monospace;*/
+    font-size: 14px;
+    background: #f5f5f5;
+    border: 0.5px solid #d1d1d1;
+    padding: 5px;
+    overflow: auto;
+    max-height: 400px;
+    margin: 15px 0;
+    position: relative;
+}
+
+/* стиль для ссылки Скопировать код */
+#content .copy {
+    color: #969696;
+    font-size: 8px;
+    background: #ffffff;
+    border: 0.5px solid #d1d1d1;
+    padding: 0;
+    border-radius: 5px;
+    position: absolute;
+    z-index: 1000;
+    right: 1px;
+    top: 1px;
+    cursor: pointer;
+    width: 60px;
+    text-align: center;
+}
+
+    #content pre .codeblock {
+        border-left: 0.5px solid #dddddd;
+    }
+    #content pre .collapse {
+        margin-top: -16px;
+    }
+        #content pre .collapse .collapse-message {
+            display: none;
+            padding-left: 30px;
+            color: #bbb;
+        }
+            #content pre .collapse .collapse-code .collapse .collapse-message {
+                display: none;
+                padding-left: 60px;
+                color: #bbb;
+            }
+                #content pre .collapse .collapse-code .collapse .collapse-code .collapse .collapse-message {
+                    display: none;
+                    padding-left: 90px;
+                    color: #bbb;
+                }
+        #content pre .collapse .collapse-toggle {
+            display: block;
+            width: 8px;
+            height: 8px;
+            background: #ccc;
+            position: relative;
+            left: -13px;
+            top: -4px;
+
+        }
+        #content pre .collapse i {
+            cursor: pointer;
+            font-size: 11px;
+            position: relative;
+            left: -13px;
+            color: #d1d1d1;
+        }
+
+/* универсальная таблица */
+.data-table {
+    border-collapse: collapse;
+    margin: 15px 0;
+}
+    .data-table caption {
+        text-align: left;
+        color: #000000;
+        font-weight: normal;
+        text-shadow: 1px 1px 1px #ccc;
+        margin-bottom: 5px;
+    }
+    .data-table td, .data-table th {
+        padding: 5px;
+        vertical-align:top;
+        border: 1px solid #d1d1d1;
+        color: #323232;
+    }
+    .data-table th {
+        background-color: #f0f0f0;
+        font-weight: normal;
+        text-align: left;
+    }
+
+/* список в несколько колонок */
+.two-columns {
+    column-count: 2;
+    list-style: none;
+    margin-left: 0 !important;
+}
+.three-columns {
+    column-count: 3;
+    list-style: none;
+    margin-left: 0 !important;
+}
+.four-columns {
+    column-count: 4;
+    list-style: none;
+    margin-left: 0 !important;
+}
+
+/* хлебные крошки */
+#breadcrumbs {
+    border: 1px solid #d1d1d1;
+    border-top: 5px solid #395985;
+    overflow: hidden;
+    padding: 15px;
+    font-size: 13px;
+    line-height: 18px;
+    margin-bottom: 20px;
+}
+    #breadcrumbs > div {
+        margin-top: 10px;
+        padding-top: 10px;
+        border-top: 1px dashed #d1d1d1;
+    }
+    #breadcrumbs a {
+        font-size: 13px;
+    }
+
+/* сообщение об ошибке */
+.error-message {
+    border: 1px solid #e9751f;
+    border-top: 5px solid #e9751f;
+    overflow: hidden;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+    .error-message > ul {
+        margin-left: 20px;
+        color: #e9751f;
+    }
+
+/* постраничная навигация */
+#content .pager {
+    overflow: hidden;
+    margin-top: 20px;
+    margin-left: 0;
+}
+    #content .pager li {
+        list-style: none;
+        float: left;
+        margin-right: 15px;
+    }
+    #content .pager li:last-child {
+        margin-right: 0;
+    }
+        #content .pager li a {
+            display: block;
+            width: 26px;
+            height: 26px;
+            text-align: center;
+            background: #395985;
+            font-size: 14px;
+            line-height: 26px;
+            color: #fff;
+            text-decoration: none;
+        }
+        #content .pager li a.next-page {
+             background: #395985 url(../img/next-page.png) center center no-repeat;
+        }
+        #content .pager li a.prev-page {
+            background: #395985 url(../img/prev-page.png) center center no-repeat;
+        }
+        #content .pager li a.first-page {
+            background: #395985 url(../img/first-page.png) center center no-repeat;
+        }
+        #content .pager li a.last-page {
+            background: #395985 url(../img/last-page.png) center center no-repeat;
+        }
+        #content .pager li span {
+            display: block;
+            width: 26px;
+            height: 26px;
+            text-align: center;
+            background: #e9751f;
+            font-size: 14px;
+            line-height: 26px;
+            color: #fff;
+        }
+
+.top-search-loader {
+    min-height: 34px;
+    background: #323232 url('../img/ajax-search-loader.gif') center center no-repeat !important;
+}
+
+/*
+ * ЛЕВАЯ И ПРАВАЯ КОЛОНКА
+ */
+#left *, #right * {
+    font-size: 13px;
+}
+    /* информационные блоки в левой и правой колонке */
+    #left > div, #right > div {
+        margin: 20px 0;
+        border: 1px solid #d1d1d1;
+        border-top: 5px solid #395985;
+        overflow: hidden;
+    }
+        #left > div > div:first-child, #right > div > div:first-child {
+            padding: 15px;
+            font-size: 16px;
+            line-height: 16px;
+            background: #f0f0f0;
+        }
+        #left > div > div:last-child, #right > div > div:last-child {
+            border-top: 1px solid #d1d1d1;
+            padding: 15px;
+        }
+            #right > div > div:last-child ul {
+                list-style: none;
+            }
+                #right > div > div:last-child > ul > li {
+                    margin-bottom: 7px;
+                }
+                #right > div > div:last-child > ul > li:last-child {
+                    margin-bottom: 0;
+                }
+                #right > div > div:last-child > ul > li > a {
+                    font-size: 16px;
+                }
+                #right > div > div:last-child > ul ul {
+                    padding-left: 15px;
+                }
+
+/*
+ * ЛЕВАЯ КОЛОНКА
+ */
+#left {
+    display: none;
+}
+/*
+ * ЦЕНТРАЛЬНАЯ КОЛОНКА
+ */
+#content {
+    margin-left: 0;
+    padding-left: 0;
+}
+
+/*
+ * ПРАВАЯ КОЛОНКА
+ */
+#right {
+
+}
+    #right ul.side-popular li a {
+        font-size: 13px !important;
+    }
+    #right ul.side-tags {
+        -webkit-column-count: 2;
+        -moz-column-count: 2;
+        column-count: 2;
+    }
+        #right > div > div:last-child > ul.side-tags > li {
+            font-size: 9px;
+            color: #969696;
+            letter-spacing: -0.5px;
+        }
+            #right > div > div:last-child > ul.side-tags > li > a {
+                font-size: 12px;
+            }
+    #right a.all-tags {
+        display: block;
+        margin-top: 15px;
+        text-align: center;
+        background: #395985;
+        color: #FFFFFF;
+        text-decoration: none;
+        padding: 5px 0;
+    }
+
+
+/*
+ * ПОДВАЛ САЙТА
+ */
+#footer {
+    color: #5390cc;
+    line-height: 40px;
+}
+
+/*
+ * MEDIA-ЗАПРОСЫ
+ */
+
+@media screen and (max-width: 1200px) {
+    #header > .wrapper > div:first-child, #header > .wrapper > div:last-child {
+        float: none;
+        width: 100%;
+        height: 40px;
+    }
+        #header > .wrapper > div:first-child > span {
+            display: inline;
+        }
+            #header > .wrapper > div:first-child > span:first-child {
+                font-size: 30px;
+                margin-right: 8px;
+            }
+        #header > .wrapper form {
+            margin-top: 0;
+        }
+        #top-search > div {
+            top: 38px;
+        }
+}
+
+@media screen and (max-width: 800px) {
+    #content { /* перемещаем правую колонку вниз */
+        margin: 0;
+        padding: 20px 0 0 0;
+        float: none;
+        margin-bottom: 40px;
+    }
+    #right {
+        width: 100%;
+        float: none;
+        margin-left: 0;
+    }
+    #right .tags {
+        column-count: 5;
+    }
+    #right > div:first-child > div:last-child > ul > li { /* категории блога */
+        float: left;
+        width: 33.33333%;
+    }
+    #right > div:first-child > div:last-child > ul > li > ul {
+        margin-top: 10px;
+        padding-left: 0;
+    }
+    #right > div:last-child > div:last-child > ul > li { /* категории статей */
+        float: left;
+        width: 33.33333%;
+    }
+}

@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<!-- saved from url=(0037)https://tokmakov.msk.ru/blog/item/435 -->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru" lang="ru" class=""><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Начало шаблона view/example/frontend/template/head.php -->
+
+<title>Vagrant. Начало работы. Часть 2 из 2. Категория: Web-разработка • Разное</title>
+<meta name="keywords" content="HTML CSS PHP MySQL Bitrix WordPress Python Flask Linux 1С:Предприятие">
+<meta name="description" content="Для автоматической установки и настройки программного обеспечения предназначена настройка config.vm.provision. Мы будем использовать самый простой способ — shell-скрипт, но доступны также и другие: Ansible, Chef, Puppet.">
+<link rel="icon" href="https://tokmakov.msk.ru/favicon.png">
+
+    <meta name="robots" content="all">
+
+            <link rel="stylesheet" href="./Vagrant2_2_files/reset.css" type="text/css">
+            <link rel="stylesheet" href="./Vagrant2_2_files/common.css" type="text/css">
+            <link rel="stylesheet" href="./Vagrant2_2_files/prism.css" type="text/css">
+            <link rel="stylesheet" href="./Vagrant2_2_files/awesome.min.css" type="text/css">
+            <link rel="stylesheet" href="./Vagrant2_2_files/dejavu.css" type="text/css">
+            <link rel="stylesheet" href="./Vagrant2_2_files/input.css" type="text/css">
+            <link rel="stylesheet" href="./Vagrant2_2_files/blog.css" type="text/css">
+            <link rel="stylesheet" href="./Vagrant2_2_files/jquery.fancybox.css" type="text/css">
+    
+            <script type="text/javascript" async="" src="./Vagrant2_2_files/js"></script><script async="" src="./Vagrant2_2_files/tag.js"></script><script type="text/javascript" async="" src="./Vagrant2_2_files/analytics.js"></script><script async="" src="./Vagrant2_2_files/gtm.js"></script><script type="text/javascript" src="./Vagrant2_2_files/jquery-2.1.1.min.js"></script><style type="text/css" id="operaUserStyle"></style>
+            <script type="text/javascript" src="./Vagrant2_2_files/jquery.cookie.js"></script>
+            <script type="text/javascript" src="./Vagrant2_2_files/jquery.form.min.js"></script>
+            <script type="text/javascript" src="./Vagrant2_2_files/prism.js"></script>
+            <script type="text/javascript" src="./Vagrant2_2_files/center.js"></script>
+            <script type="text/javascript" src="./Vagrant2_2_files/common.js"></script>
+            <script type="text/javascript" src="./Vagrant2_2_files/jquery.mousewheel-3.0.6.pack.js"></script>
+            <script type="text/javascript" src="./Vagrant2_2_files/jquery.fancybox.pack.js"></script>
+            <script type="text/javascript" src="./Vagrant2_2_files/lightbox.js"></script>
+    
+
+<!-- Конец шаблона view/example/frontend/template/head.php -->
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-M7H5WXJ');</script>
+<!-- End Google Tag Manager -->
+<style type="text/css">:root [href^="//mage98rquewz.com/"], :root [href^="//x4pollyxxpush.com/"], :root zeus-ad, :root span[id^="ezoic-pub-ad-placeholder-"], :root ins.adsbygoogle[data-ad-slot], :root guj-ad, :root gpt-ad, :root div[id^="zergnet-widget"], :root div[id^="vuukle-ad-"], :root div[id^="taboola-stream-"], :root div[id^="sticky_ad_"], :root div[id^="pa_sticky_ad_box_middle_"], :root div[id^="optidigital-adslot"], :root div[id^="gpt_ad_"], :root div[id^="ezoic-pub-ad-"], :root div[id^="dfp-ad-"], :root div[id^="crt-"][style], :root div[id^="adspot-"], :root div[id^="adrotate_widgets-"], :root ps-connatix-module, :root div[id^="ad_position_"], :root div[id^="ad-div-"], :root div[id*="ScriptRoot"], :root div[id*="MarketGid"], :root div[data-native_ad], :root div[data-native-ad], :root div[data-id-advertdfpconf], :root hl-adsense, :root div[data-contentexchange-widget], :root div[data-alias="300x250 Ad 2"], :root div[data-adzone], :root div[data-adunit-path], :root div[data-adname], :root div[data-ad-wrapper], :root div[data-ad-placeholder], :root div[class^="native-ad-"], :root div[data-dfp-id], :root div[class^="kiwi-ad-wrapper"], :root div[aria-label="Ads"], :root display-ads, :root display-ad-component, :root bottomadblock, :root atf-ad-slot, :root aside[id^="adrotate_widgets-"], :root ark-top-ad, :root amp-fx-flying-carpet, :root amp-embed[type="taboola"], :root amp-connatix-player, :root amp-ad-custom, :root amp-ad, :root div[id^="google_dfp_"], :root ad-slot, :root ad-shield-ads, :root a[style="width:100%;height:100%;z-index:10000000000000000;position:absolute;top:0;left:0;"], :root a[onmousedown^="this.href='https://paid.outbrain.com/network/redir?"][target="_blank"] + .ob_source, :root a[onmousedown^="this.href='http://paid.outbrain.com/network/redir?"][target="_blank"] + .ob_source, :root a[onmousedown^="this.href='http://paid.outbrain.com/network/redir?"][target="_blank"], :root a[href^="https://www.purevpn.com/"][href*="&utm_source=aff-"], :root a[href^="https://www.onlineusershielder.com/"], :root a[href^="https://www.nudeidols.com/cams/"], :root a[href^="https://financeads.net/tc.php?"], :root a[href^="https://www.mrskin.com/tour"], :root a[href^="https://www.kingsoffetish.com/tour?partner_id="], :root a[href^="https://www.infowarsstore.com/"] > img, :root a[href^="https://www.highperformancecpmgate.com/"], :root a[href^="https://www.highcpmrevenuenetwork.com/"], :root a[href^="https://lnkxt.bannerator.com/"], :root a[href^="https://www.geekbuying.com/dynamic-ads/"], :root a[href^="https://www.friendlyduck.com/AF_"], :root a[href^="https://www.financeads.net/tc.php?"], :root [href^="https://www.herbanomic.com/"] > img, :root a[href^="https://maymooth-stopic.com/"], :root a[href^="https://www.dql2clk.com/"], :root a[href^="https://www.nutaku.net/signup/landing/"], :root a[href^="https://www.dating-finder.com/signup/?ai_d="], :root a[href^="https://explore-site.com/"], :root a[href^="https://www.brazzersnetwork.com/landing/"], :root a[href^="https://www.adxsrve.com/"], :root [data-template-type="nativead"], :root a[href^="https://www.endorico.com/Smartlink/"], :root a[href^="https://www.adultempire.com/"][href*="?partner_id="], :root a[href^="https://voluum.prom-xcams.com/"], :root div[data-type="_mgwidget"]:not(.eyeo), :root a[href^="https://twinrdsrv.com/"], :root a[href^="https://trk.nfl-online-streams.club/"], :root a[href^="https://tracking.avapartner.com/"], :root a[href^="https://track.wg-aff.com"], :root a[href^="https://track.ultravpn.com/"], :root a[href^="https://track.afcpatrk.com/"], :root a[href^="https://track.1234sd123.com/"], :root a[href^="https://torguard.net/aff.php"] > img, :root a[href^="https://tc.tradetracker.net/"] > img, :root a[href^="https://tatrck.com/"], :root a[href^="https://click.candyoffers.com/"], :root [href^="https://zstacklife.com/"] img, :root a[href^="https://t.aslnk.link/"], :root a[href^="https://t.ajrkm3.com/"], :root a[href^="https://t.adating.link/"], :root a[href^="https://safesurfingtoday.com/"][href*="?skip="], :root a[href^="https://land.brazzersnetwork.com/landing/"], :root a[href^="https://t.acam.link/"], :root a[href*="//daichoho.com/"], :root a[href^="https://syndication.optimizesrv.com/"], :root a[href^="https://go.trackitalltheway.com/"], :root [href^="https://track.fiverr.com/visit/"] > img, :root a[href^="https://syndication.exoclick.com/"], :root a[href^="https://syndication.dynsrvtbg.com/"], :root div[data-alias="300x250 Ad 1"], :root a[href^="https://syndicate.contentsserved.com/"], :root a[href^="https://svb-analytics.trackerrr.com/"], :root a[href^="https://streamate.com/landing/click/"], :root a[href^="https://ad.doubleclick.net/"], :root a[href^="https://static.fleshlight.com/images/banners/"], :root a[href^="https://slkmis.com/"], :root a[href^="https://s.zlink3.com/"], :root a[href^="https://www.mrskin.com/account/"], :root a[href^="https://s.optzsrv.com/"], :root a[href^="https://random-affiliate.atimaze.com/"], :root a[href^="https://quotationfirearmrevision.com/"], :root a[href^="https://pubads.g.doubleclick.net/"], :root a[href^="https://ak.oalsauwy.net/"], :root a[href^="https://softwa.cfd/"], :root a[href^="https://play1ad.shop/"], :root a[href^="https://prf.hn/click/"][href*="/camref:"] > img, :root a[href^="https://www.dating-finder.com/?ai_d="], :root a[href^="https://serve.awmdelivery.com/"], :root a[href^="https://prf.hn/click/"][href*="/adref:"] > img, :root app-ad, :root a[href^="https://postback1win.com/"], :root a[href^="https://a.adtng.com/"], :root a[href^="https://playnano.online/offerwalls/?ref="], :root a[href^="https://www.privateinternetaccess.com/"] > img, :root a[href^="https://mmwebhandler.aff-online.com/"], :root a[href^="https://www.bet365.com/"][href*="affiliate="], :root a[href^="https://pb-track.com/"], :root a[href^="https://pb-front.com/"], :root a[href^="https://paid.outbrain.com/network/redir?"], :root a[href^="https://ngineet.cfd/"], :root a[href^="https://upsups.click/"], :root a[href^="https://ndt5.net/"], :root a[href^="http://eighteenderived.com/"], :root a[href^="https://natour.naughtyamerica.com/track/"], :root a[href^="https://mediaserver.entainpartners.com/renderBanner.do?"], :root a[href^="https://www.sugarinstant.com/?partner_id="], :root a[href^="https://m.do.co/c/"] > img, :root [data-ad-name], :root a[href^="https://loboclick.com/"], :root .nya-slot[style], :root a[href^="https://a.bestcontentweb.top/"], :root a[href^="https://lobimax.com/"], :root a[href^="https://lead1.pl/"], :root a[href^="https://landing1.brazzersnetwork.com"], :root a[href^="https://landing.brazzersnetwork.com/"], :root a[href^="https://join.virtuallust3d.com/"], :root a[href^="https://kiksajex.com/"], :root a[href^="https://juicyads.in/"], :root a[href^="https://www.mypornstarcams.com/landing/click/"], :root a[href^="https://snowdayonline.xyz/"], :root a[href^="https://mediaserver.gvcaffiliates.com/renderBanner.do?"], :root a[href^="https://join.dreamsexworld.com/"], :root a[href^="https://jaxofuna.com/"], :root a[href^="https://itubego.com/video-downloader/?affid="], :root a[href^="https://italarizege.xyz/"], :root a[href^="https://iqbroker.com/"][href*="?aff="], :root a[href^="https://hot-growngames.life/"], :root a[href^="https://golinks.work/"], :root a[href^="https://go.xxxvjmp.com/"], :root a[href^="https://s.deltraff.com/"], :root a[href^="https://zirdough.net/"], :root [class^="tile-picker__CitrusBannerContainer-sc-"], :root a[href^="https://go.xxxiijmp.com"], :root a[href^="https://go.xtbaffiliates.com/"], :root .OUTBRAIN[data-widget-id^="FMS_REELD_"], :root [data-role="tile-ads-module"], :root a[href^="https://go.xlviirdr.com"], :root a[href^="https://go.xlviiirdr.com"], :root a[href^="https://ismlks.com/"], :root [href^="https://www.mypillow.com/"] > img, :root a[href^="https://go.xlirdr.com"], :root [data-css-class="dfp-inarticle"], :root a[href^="https://l.hyenadata.com/"], :root a[href^="https://go.tmrjmp.com"], :root a[href^="https://go.skinstrip.net"][href*="?campaignId="], :root a[href^="https://go.markets.com/visit/?bta="], :root a[href^="https://billing.purevpn.com/aff.php"] > img, :root a[href^="https://go.hpyrdr.com/"], :root a[href^="https://lijavaxa.com/"], :root a[href^="https://go.goaserv.com/"], :root a[href^="https://t.hrtye.com/"], :root a[href^="https://go.etoro.com/"] > img, :root a[href^="https://go.dmzjmp.com"], :root div[class^="Display_displayAd"], :root a[href^="https://www.bang.com/?aff="], :root #mgb-container > #mgb, :root a[href^="https://go.admjmp.com"], :root div[id^="div-gpt-"], :root a[href^="https://gml-grp.com/"], :root a[href^="https://get.surfshark.net/aff_c?"][href*="&aff_id="] > img, :root a[href^="https://gamingadlt.com/?offer="], :root a[href^="https://www.adskeeper.com"], :root [href^="https://www.reimageplus.com/"], :root a[data-redirect^="https://paid.outbrain.com/network/redir?"], :root [href^="https://clicks.affstrack.com/"] > img, :root a[href^="https://ak.hauchiwu.com/"], :root a[href^="https://engine.phn.doublepimp.com/"], :root a[href^="https://engine.blueistheneworanges.com/"], :root a[href^="https://eergortu.net/"], :root a[href^="https://dl-protect.net/"], :root a[href^="https://rixofa.com/"], :root a[href^="https://disobediencecalculatormaiden.com/"], :root a[href^="https://datingoffers30.info/"], :root a[href*=".foxqck.com/"], :root a[href^="https://ctosrd.com/"], :root div[id*="ScriptRoot"]:not(.eyeo), :root a[href^="https://clixtrac.com/"], :root [href^="https://noqreport.com/"] > img, :root a[href^="https://clicks.pipaffiliates.com/"], :root a[href^="https://datewhisper.life/"], :root a[href^="https://get-link.xyz/"], :root a[href^="https://click.linksynergy.com/fs-bin/"] > img, :root a[href^="https://combodef.com/"], :root AD-TRIPLE-BOX, :root a[href^="https://click.hoolig.app/"], :root a[href^="https://track.totalav.com/"], :root img[src^="https://images.purevpnaffiliates.com"], :root a[href^="https://porntubemate.com/"], :root a[href^="https://clickadilla.com/"], :root a[href^="https://click.dtiserv2.com/"], :root a[href^="https://go.xlvirdr.com"], :root a[href^="http://www.iyalc.com/"], :root a[href^="https://claring-loccelkin.com/"], :root a[href^="https://s.ma3ion.com/"], :root a[href^="https://cams.imagetwist.com/in/?track="], :root a[href^="https://bongacams2.com/track?"], :root a[href^="https://t.ajrkm1.com/"], :root [href="https://masstortfinancing.com"] img, :root a[href^="https://bongacams10.com/track?"], :root a[href*=".g2afse.com/"], :root a[href^="https://bodelen.com/"], :root a[target="_blank"][onmousedown="this.href^='http://paid.outbrain.com/network/redir?"], :root a[href^="https://banners.livepartners.com/"], :root a[href^="http://revolvemockerycopper.com/"], :root a[href^="https://awptjmp.com/"], :root a[href^="https://join.sexworld3d.com/track/"], :root a[href^="https://intenseaffiliates.com/redirect/"], :root a[href^="https://aweptjmp.com/"], :root [class^="s2nPlayer"], :root a[href^="https://chaturbate.jjgirls.com/?track="], :root a[href^="https://ausoafab.net/"], :root a[href^="https://activate-game.com/"], :root .scroll-fixable.rail-right > .deals-rail, :root [data-wpas-zoneid], :root a[href^="https://a2.adform.net/"], :root a[href^="https://auesk.cfd/"], :root a[href^="https://ak.psaltauw.net/"], :root a[href^="https://adclick.g.doubleclick.net/"], :root div[id^="ad-position-"], :root a[href^="https://leg.xyz/?track="], :root a[href^="https://www.toprevenuegate.com/"], :root a[href^="https://bc.game/"], :root a[href^="https://a.bestcontentoperation.top/"], :root a[href^="https://adultfriendfinder.com/go/"], :root a[href^="https://ads.planetwin365affiliate.com/"], :root a[href^="https://ads.leovegas.com/"], :root a[href^="https://a.candyai.love/"], :root [data-m-ad-id], :root a[href^="https://a-ads.com/"], :root div[id^="rc-widget-"], :root a[href^="http://eslp34af.click/"], :root a[href^="https://turnstileunavailablesite.com/"], :root a[href^="https://chaturbate.com/in/?"], :root ins.adsbygoogle[data-ad-client], :root [href^="https://freecourseweb.com/"] > .sitefriend, :root a[href^="https://prf.hn/click/"][href*="/creativeref:"] > img, :root a[href*="&maxads="], :root a[href^="http://www.adultempire.com/unlimited/promo?"][href*="&partner_id="], :root a[href^="https://1betandgonow.com/"], :root a[href^="https://www.googleadservices.com/pagead/aclk?"], :root a[href^="http://www.mrskin.com/tour"], :root a[href^="http://www.friendlyduck.com/AF_"], :root a[href^="https://getvideoz.click/"], :root a[href^="http://troopsassistedstupidity.com/"], :root a[href^="http://trk.globwo.online/"], :root a-ad, :root a[href^="https://offhandpump.com/"], :root a[href^="http://stickingrepute.com/"], :root #slashboxes > .deals-rail, :root a[href^="http://premonitioninventdisagree.com/"], :root a[href^="http://naggingirresponsible.com/"], :root a[href^="https://in.rabbtrk.com/"], :root div[data-ad-targeting], :root a[href^="https://hotplaystime.life/"], :root a[href^="http://www.h4trck.com/"], :root a[href^="https://81ac.xyz/"], :root a[href^="http://guestblackmail.com/"], :root a[href^="http://cam4com.go2cloud.org/aff_c?"], :root a[href^="https://ads.betfair.com/redirect.aspx?"], :root a[href^="https://ad.kubiccomps.icu/"], :root [href^="https://www.mypatriotsupply.com/"] > img, :root a[href^="https://trk.softonixs.xyz/"], :root a[href^="https://sexynearme.com/"], :root a[href^="https://myclick-2.com/"], :root a[href^="http://dragnag.com/"], :root [id^="div-gpt-ad"], :root .ob_container .item-container-obpd, :root div[id^="yandex_ad"], :root a[href^="https://www8.smartadserver.com/"], :root a[href^="https://pb-imc.com/"], :root a[href^="http://deskfrontfreely.com/"], :root a[href^="https://track.adform.net/"], :root a[href^="http://avthelkp.net/"], :root a[href^="https://a.medfoodhome.com/"], :root a[href^="https://engine.flixtrial.com/"], :root [data-type="ad-vertical"], :root a[href^="http://annulmentequitycereals.com/"], :root a[href^="//startgaming.net/tienda/" i], :root a[href^="https://www.get-express-vpn.com/offer/"], :root a[href^="//s.st1net.com/splash.php"], :root a[href^="https://join.virtualtaboo.com/track/"], :root [id^="ad_sky"], :root a[href^="http://coefficienttolerategravel.com/"], :root a[href^="https://a.medfoodsafety.com/"], :root a[href^="//go.eabids.com/"], :root a[href^=" https://www.friendlyduck.com/AF_"], :root a[href*="/jump/next.php?r="], :root [href^="https://ilovemyfreedoms.com/landing-"], :root a[href^="https://go.nordvpn.net/aff"] > img, :root .\[\&_\.gdprAdTransparencyCogWheelButton\]\:\!pjra-z-\[5\], :root [href^="http://clicks.totemcash.com/"], :root a[href^="https://ad.zanox.com/ppc/"] > img, :root [data-d-ad-id], :root a[href*=".engine.adglare.net/"], :root [href^="https://www.profitablegatecpm.com/"], :root div[id^="lazyad-"], :root a[href^="http://com-1.pro/"], :root a[href*=".cfm?domain="][href*="&fp="], :root [data-dynamic-ads], :root a[href^="https://xbet-4.com/"], :root a[data-widget-outbrain-redirect^="http://paid.outbrain.com/network/redir?"], :root [data-ad-width], :root [data-block-type="ad"], :root [href^="https://join.playboyplus.com/track/"], :root a[data-url^="http://paid.outbrain.com/network/redir?"] + .author, :root a[href^="https://ab.advertiserurl.com/aff/"], :root a[data-oburl^="https://paid.outbrain.com/network/redir?"], :root a[href^="https://trk.sportsflix4k.club/"], :root a[href^="http://dragfault.com/"], :root [href^="https://cpa.10kfreesilver.com/"], :root a[href^="https://a.bestcontentfood.top/"], :root a[data-obtrack^="http://paid.outbrain.com/network/redir?"], :root a[data-href^="http://ads.trafficjunky.net/"], :root a[href^="https://go.xlivrdr.com"], :root [onclick^="location.href='https://1337x.vpnonly.site/"], :root [name^="google_ads_iframe"], :root [id^="section-ad-banner"], :root [data-advadstrackid], :root a[href^="http://muzzlematrix.com/"], :root [href^="https://zone.gotrackier.com/"], :root [href^="https://www.restoro.com/"], :root a[href^="https://bngpt.com/"], :root a[href^="https://www.sheetmusicplus.com/"][href*="?aff_id="], :root a[href^="http://adultfriendfinder.com/go/"], :root a[href^="https://fastestvpn.com/lifetime-special-deal?a_aid="], :root a[href^="https://tour.mrskin.com/"], :root citrus-ad-wrapper, :root a[onmousedown^="this.href='https://paid.outbrain.com/network/redir?"][target="_blank"], :root a[href^="https://go.grinsbest.com/"], :root a[href^="https://vo2.qrlsx.com/"], :root [href^="https://www.avantlink.com/click.php"] img, :root a[href^="https://losingoldfry.com/"], :root [href^="https://routewebtk.com/"], :root a[href^="https://t.ajump1.com/"], :root span[data-ez-ph-id], :root [href^="https://track.aftrk1.com/"], :root div[id^="adngin-"], :root [data-rc-widget], :root a[href^="https://go.hpyjmp.com"], :root [href^="https://mystore.com/"] > img, :root div[id^="div-ads-"], :root [href^="https://rapidgator.net/article/premium/ref/"], :root [href^="https://join.girlsoutwest.com/"], :root [href^="https://join3.bannedsextapes.com"], :root a[href^="https://go.xxxijmp.com"], :root [href^="https://istlnkcl.com/"], :root div[data-adunit], :root app-large-ad, :root [href^="https://turtlebids.irauctions.com/"] img, :root [href^="https://wct.link/click?"], :root [href^="https://go.xlrdr.com"], :root a[href^="https://tm-offers.gamingadult.com/"], :root [href^="https://charmingdatings.life/"], :root [href^="https://glersakr.com/"], :root [href^="https://v.investologic.co.uk/"], :root a[href^="https://www.goldenfrog.com/vyprvpn?offer_id="][href*="&aff_id="], :root [id^="ad-wrap-"], :root a[href*="//jjgirls.com/sex/Chaturbate"], :root [data-id^="div-gpt-ad"], :root a[href^="https://tracker.loropartners.com/"], :root [href^="https://awbbjmp.com/"], :root a[href*=".adsrv.eacdn.com/"], :root [href^="https://antiagingbed.com/discount/"] > img, :root [href^="https://www.brighteonstore.com/products/"] img, :root a[href^="https://bngprm.com/"], :root [href^="https://shiftnetwork.infusionsoft.com/go/"] > img, :root a[href^="https://go.strpjmp.com/"], :root a[href^="https://go.bushheel.com/"], :root a[href^="https://ctjdwm.com/"], :root a[href^="https://camfapr.com/landing/click/"], :root [href="//sexcams.plus/"], :root [href^="http://www.mypillow.com/"] > img, :root [href^="https://www.targetingpartner.com/"], :root div[class^="Adstyled__AdWrapper-"], :root a[href^="https://startgaming.net/tienda/" i], :root .section-subheader > .section-hotel-prices-header, :root [href^="https://www.hostg.xyz/"] > img, :root #kt_player > a[target="_blank"], :root a[href^="http://bongacams.com/track?"], :root [href^="http://mypillow.com/"] > img, :root [href="https://ourgoldguy.com/contact/"] img, :root [href="https://www.masstortfinancing.com/"] > img, :root a[href^="https://go.rmhfrtnd.com/"], :root [href="https://jdrucker.com/gold"] > img, :root [href^="https://ad.admitad.com/"], :root [href^="https://mypillow.com/"] > img, :root [data-testid="ad_testID"], :root a[href^="http://handgripvegetationhols.com/"], :root [class^="amp-ad-"], :root a[href^="http://tc.tradetracker.net/"] > img, :root [data-ez-name], :root a[href^="https://black77854.com/"], :root [data-revive-zoneid] > iframe, :root [data-testid="adBanner-wrapper"], :root [href^="https://mylead.global/stl/"] > img, :root [href^="https://mypatriotsupply.com/"] > img, :root div[class*="publift-widget-"]:has(.fuse-slot-sticky), :root a[href^="https://witnessjacket.com/"], :root [data-mobile-ad-id], :root a[href^="https://fc.lc/ref/"], :root [data-adshim], :root topadblock, :root a[href^="//s.zlinkd.com/"], :root a[href^="https://bs.serving-sys.com"], :root a[href^="https://go.cmtaffiliates.com/"], :root [href^="https://optimizedelite.com/"] > img, :root [data-name="adaptiveConstructorAd"], :root a[href^="http://partners.etoro.com/"], :root [href^="https://goldcometals.com/clk.trk"], :root [data-desktop-ad-id], :root [href^="https://www.cloudways.com/en/?id"], :root a[href^="https://www.liquidfire.mobi/"], :root .grid > .container > #aside-promotion, :root DFP-AD, :root [id^="ad_slider"], :root [data-adbridg-ad-class], :root a[href^="https://linkboss.shop/"], :root [data-adblockkey], :root [onclick*="content.ad/"], :root [data-ad-manager-id], :root AMP-AD, :root [data-ad-cls], :root a[href^="https://6-partner.com/"], :root [href^="https://affiliate.fastcomet.com/"] > img, :root a[href^="https://go.mnaspm.com/"], :root [class^="adDisplay-module"], :root AD-SLOT, :root #kt_player > div[style="position: absolute; inset: 0px; z-index: 170;"], :root [data-freestar-ad][id], :root a[href^="https://go.xxxjmp.com"], :root #leader-companion > a[href], :root a[href^="http://www.adultdvdempire.com/?partner_id="][href*="&utm_"], :root [data-ad-module], :root app-advertisement, :root a[href^="https://getmatchedlocally.com/"], :root a[href^="https://clickins.slixa.com/"], :root [class^="div-gpt-ad"], :root a[href^="https://traffdaq.com/"], :root a[href^="https://cam4com.go2cloud.org/"], :root a[href^="http://li.blogtrottr.com/click?"], :root .ob_dual_right > .ob_ads_header ~ .odb_div { display: none !important; }</style><style type="text/css">.fancybox-margin{margin-right:15px;}</style></head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M7H5WXJ"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div id="header">
+    <div class="wrapper">
+        
+<!-- Начало шаблона view/example/frontend/template/header.php -->
+
+<div>
+    <span>Узелки</span>
+    <span>на память</span>
+</div>
+<div id="top-search">
+    <form action="https://tokmakov.msk.ru/blog/search" method="post">
+        <input type="text" name="query" value="" maxlength="64" placeholder="Поиск по блогу" autocomplete="off">
+        <input type="submit" name="submit" value="">
+    </form>
+    <div></div>
+</div>
+
+<!-- Конец шаблона view/example/frontend/template/header.php -->
+    </div>
+</div>
+
+<div id="main-menu">
+    <div class="wrapper">
+        
+<!-- Начало шаблона view/example/frontend/template/menu.php -->
+
+<div id="menu">
+    <ul>
+        <li><a href="https://tokmakov.msk.ru/">Главная</a>
+                    </li><li><a href="https://tokmakov.msk.ru/blog">Блог</a>
+                            </li>
+                    <li><a href="https://tokmakov.msk.ru/github">GitHub</a>
+                            </li>
+                    <li><a href="https://tokmakov.msk.ru/articles">Статьи</a>
+                            </li>
+            </ul>
+</div>
+
+<!-- Конец шаблона view/example/frontend/template/menu.php -->
+
+    </div>
+</div>
+
+<div class="wrapper">
+    <div id="wrap">
+        <div id="content">
+            
+<!-- Начало шаблона view/example/frontend/template/blog/post/center.php -->
+
+    <div id="breadcrumbs">
+                    <a href="https://tokmakov.msk.ru/">Главная</a>&nbsp;&gt;
+                    <a href="https://tokmakov.msk.ru/blog">Блог</a>&nbsp;&gt;
+                    <a href="https://tokmakov.msk.ru/blog/category/1">Web-разработка</a>&nbsp;&gt;
+                    <a href="https://tokmakov.msk.ru/blog/category/11">Разное</a>&nbsp;&gt;
+            </div>
+
+<h1>Vagrant. Начало работы. Часть 2 из 2</h1>
+
+<div id="post-item">
+    <div>
+        <p>24.11.2019</p>
+                    <p>
+                Теги:
+                                                        <a href="https://tokmakov.msk.ru/blog/tags/15">CLI</a>
+                                    •                    <a href="https://tokmakov.msk.ru/blog/tags/8">MySQL</a>
+                                    •                    <a href="https://tokmakov.msk.ru/blog/tags/93">Nginx</a>
+                                    •                    <a href="https://tokmakov.msk.ru/blog/tags/7">PHP</a>
+                                    •                    <a href="https://tokmakov.msk.ru/blog/tags/27">Ubuntu</a>
+                                    •                    <a href="https://tokmakov.msk.ru/blog/tags/298">Vagrant</a>
+                                    •                    <a href="https://tokmakov.msk.ru/blog/tags/9">Web-разработка</a>
+                                    •                    <a href="https://tokmakov.msk.ru/blog/tags/14">Windows</a>
+                                    •                    <a href="https://tokmakov.msk.ru/blog/tags/297">Виртуализация</a>
+                                    •                    <a href="https://tokmakov.msk.ru/blog/tags/266">Настройка</a>
+                                    •                    <a href="https://tokmakov.msk.ru/blog/tags/170">Установка</a>
+                            </p>
+            </div>
+    <h2>Установка пакетов</h2>
+<p>
+Для автоматической установки и настройки программного обеспечения предназначена настройка <code>config.vm.provision</code>. Мы будем использовать самый простой способ — shell-скрипт, но доступны также и другие варианты — Ansible, Chef, Puppet. Рассмотрим пример:
+</p>
+<pre class="lang-ruby" style="color:#008080">Vagrant<span style="color:#FF0000">.</span>configure<span style="color:#FF0000">(</span><span style="color:#FF00FF">2</span><span style="color:#FF0000">)</span> <span style="color:#8000FF">do</span> <span style="color:#FF0000">|</span>config<span style="color:#FF0000">|</span>
+  config<span style="color:#FF0000">.</span>vm<span style="color:#FF0000">.</span>box <span style="color:#FF0000">=</span> <span style="color:#0000FF">"bento/ubuntu-18.04"</span>
+  config<span style="color:#FF0000">.</span>vm<span style="color:#FF0000">.</span>provision <span style="color:#0000FF">"nginx"</span><span style="color:#FF0000">,</span> type<span style="color:#FF0000">:</span> <span style="color:#0000FF">"shell"</span><span style="color:#FF0000">,</span> inline<span style="color:#FF0000">:</span> <span style="color:#0000FF">"echo Installing Nginx; apt-get install -y nginx"</span>
+  config<span style="color:#FF0000">.</span>vm<span style="color:#FF0000">.</span>provision <span style="color:#0000FF">"mysql"</span><span style="color:#FF0000">,</span> type<span style="color:#FF0000">:</span> <span style="color:#0000FF">"shell"</span><span style="color:#FF0000">,</span> inline<span style="color:#FF0000">:</span> <span style="color:#0000FF">"echo Installing MySQL; apt-get install -y mysql-server"</span>
+  config<span style="color:#FF0000">.</span>vm<span style="color:#FF0000">.</span>provision <span style="color:#0000FF">"php"</span><span style="color:#FF0000">,</span> type<span style="color:#FF0000">:</span> <span style="color:#0000FF">"shell"</span><span style="color:#FF0000">,</span> inline<span style="color:#FF0000">:</span> <span style="color:#0000FF">"echo Installing PHP; apt-get install -y php-fpm php-mysql"</span>
+<span style="color:#8000FF">end</span><span class="copy">Копировать</span></pre>
+<p>
+При установке Vagrant выдает сообщения:
+</p>
+<pre class="lang-cli" style="color:#0080FF"><span style="color:#AAAAAA">$</span> <span style="color:#8000FF">vagrant up</span>
+..........
+==&gt; default: Running provisioner: <span style="color:#EE0000">nginx</span> (shell)...
+    default: Running: inline script
+    default: <span style="color:#008080">Installing Nginx</span>
+    ..........
+==&gt; default: Running provisioner: <span style="color:#EE0000">mysql</span> (shell)...
+    default: Running: inline script
+    default: <span style="color:#008080">Installing MySQL</span>
+    ..........
+==&gt; default: Running provisioner: <span style="color:#EE0000">php</span> (shell)...
+    default: Running: inline script
+    default: <span style="color:#008080">Installing PHP</span>
+    ..........<span class="copy">Копировать</span></pre>
+<p>
+Если команд много, их удобно объединить:
+</p>
+<pre class="lang-ruby" style="color:#008080">$script <span style="color:#FF0000">=</span> <span style="color:#BB00BB">&lt;&lt;~SCRIPT
+  echo Installing Nginx
+  apt-get install -y nginx
+  echo Installing MySQL
+  apt-get install -y mysql-server
+  echo Installing PHP
+  apt-get install -y php-fpm php-mysql
+SCRIPT</span>
+Vagrant<span style="color:#FF0000">.</span>configure<span style="color:#FF0000">(</span><span style="color:#FF00FF">2</span><span style="color:#FF0000">)</span> <span style="color:#8000FF">do</span> <span style="color:#FF0000">|</span>config<span style="color:#FF0000">|</span>
+  config<span style="color:#FF0000">.</span>vm<span style="color:#FF0000">.</span>box <span style="color:#FF0000">=</span> <span style="color:#0000FF">"bento/ubuntu-18.04"</span>
+  config<span style="color:#FF0000">.</span>vm<span style="color:#FF0000">.</span>provision <span style="color:#0000FF">"shell"</span><span style="color:#FF0000">,</span> inline<span style="color:#FF0000">:</span> $script
+<span style="color:#8000FF">end</span><span class="copy">Копировать</span></pre>
+<pre class="lang-ruby" style="color:#008080">$update <span style="color:#FF0000">=</span> <span style="color:#BB00BB">&lt;&lt;~UPDATE
+  apt-get update
+  apt-get -y upgrade
+UPDATE</span>
+$install <span style="color:#FF0000">=</span> <span style="color:#BB00BB">&lt;&lt;~INSTALL
+  apt-get install -y nginx
+  apt-get install -y mysql-server
+  apt-get install -y php-fpm php-mysql
+INSTALL</span>
+Vagrant<span style="color:#FF0000">.</span>configure<span style="color:#FF0000">(</span><span style="color:#FF00FF">2</span><span style="color:#FF0000">)</span> <span style="color:#8000FF">do</span> <span style="color:#FF0000">|</span>config<span style="color:#FF0000">|</span>
+  config<span style="color:#FF0000">.</span>vm<span style="color:#FF0000">.</span>box <span style="color:#FF0000">=</span> <span style="color:#0000FF">"bento/ubuntu-18.04"</span>
+  config<span style="color:#FF0000">.</span>vm<span style="color:#FF0000">.</span>provision <span style="color:#0000FF">"update"</span><span style="color:#FF0000">,</span> type<span style="color:#FF0000">:</span> <span style="color:#0000FF">"shell"</span><span style="color:#FF0000">,</span> inline<span style="color:#FF0000">:</span> $update
+  config<span style="color:#FF0000">.</span>vm<span style="color:#FF0000">.</span>provision <span style="color:#0000FF">"install"</span><span style="color:#FF0000">,</span> type<span style="color:#FF0000">:</span> <span style="color:#0000FF">"shell"</span><span style="color:#FF0000">,</span> inline<span style="color:#FF0000">:</span> $install
+<span style="color:#8000FF">end</span><span class="copy">Копировать</span></pre>
+<p>
+Или вообще вынести в отдельный shell-файл:
+</p>
+<pre class="lang-ruby" style="color:#008080">Vagrant<span style="color:#FF0000">.</span>configure<span style="color:#FF0000">(</span><span style="color:#FF00FF">2</span><span style="color:#FF0000">)</span> <span style="color:#8000FF">do</span> <span style="color:#FF0000">|</span>config<span style="color:#FF0000">|</span>
+  config<span style="color:#FF0000">.</span>vm<span style="color:#FF0000">.</span>box <span style="color:#FF0000">=</span> <span style="color:#0000FF">"bento/ubuntu-18.04"</span>
+  config<span style="color:#FF0000">.</span>vm<span style="color:#FF0000">.</span>provision <span style="color:#0000FF">"shell"</span><span style="color:#FF0000">,</span> path<span style="color:#FF0000">:</span> <span style="color:#0000FF">"provision.sh"</span>
+<span style="color:#8000FF">end</span><span class="copy">Копировать</span></pre>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token builtin">echo</span> <span class="token string">'Installing Nginx'</span>
+<span class="token command">apt</span>-get <span class="token command">install</span> <span class="token parameter">-y</span> nginx
+<span class="token builtin">echo</span> <span class="token string">'Installing MySQL'</span>
+<span class="token command">apt</span>-get <span class="token command">install</span> <span class="token parameter">-y</span> mysql-server
+<span class="token builtin">echo</span> <span class="token string">'Installing PHP'</span>
+<span class="token command">apt</span>-get <span class="token command">install</span> <span class="token parameter">-y</span> php-fpm php-mysql</code><span class="copy">Копировать</span></pre>
+<p>
+Поставщики (provisioners) выполняются в трех случаях:
+</p>
+<ul>
+  <li>при начальном <code>vagrant up</code></li>
+  <li>по команде <code>vagrant provision</code></li>
+  <li>по команде <code>vagrant reload --provision</code></li>
+</ul>
+<div class="note">
+Команды <code>vagrant up|reload</code> могут быть запущены с ключом <code>--no-provision</code>, чтобы пропустить инструкции <code>provision</code>.
+</div>
+<p>
+Если у каждого поставщика есть имя, то можно выполнить только его:
+</p>
+<pre class="lang-ruby" style="color:#008080">Vagrant<span style="color:#FF0000">.</span>configure<span style="color:#FF0000">(</span><span style="color:#FF00FF">2</span><span style="color:#FF0000">)</span> <span style="color:#8000FF">do</span> <span style="color:#FF0000">|</span>config<span style="color:#FF0000">|</span>
+  config<span style="color:#FF0000">.</span>vm<span style="color:#FF0000">.</span>box <span style="color:#FF0000">=</span> <span style="color:#0000FF">"bento/ubuntu-18.04"</span>
+  config<span style="color:#FF0000">.</span>vm<span style="color:#FF0000">.</span>provision <span style="color:#0000FF">"update"</span><span style="color:#FF0000">,</span> type<span style="color:#FF0000">:</span> <span style="color:#0000FF">"shell"</span><span style="color:#FF0000">,</span> path<span style="color:#FF0000">:</span> <span style="color:#0000FF">"update.sh"</span>
+  config<span style="color:#FF0000">.</span>vm<span style="color:#FF0000">.</span>provision <span style="color:#0000FF">"install"</span><span style="color:#FF0000">,</span> type<span style="color:#FF0000">:</span> <span style="color:#0000FF">"shell"</span><span style="color:#FF0000">,</span> path<span style="color:#FF0000">:</span> <span style="color:#0000FF">"install.sh"</span>
+<span style="color:#8000FF">end</span><span class="copy">Копировать</span></pre>
+<pre class="lang-cli" style="color:#0080FF"><span style="color:#AAAAAA">$</span> <span style="color:#8000FF">vagrant provision --provision-with update</span><span class="copy">Копировать</span></pre>
+
+<h2>Несколько виртуальных машин</h2>
+<p>
+Допускается создание нескольких виртуальных машин в одном <code>Vagrantfile</code>:
+</p>
+<pre class="lang-ruby" style="color:#008080">Vagrant<span style="color:#FF0000">.</span>configure<span style="color:#FF0000">(</span><span style="color:#FF00FF">2</span><span style="color:#FF0000">)</span> <span style="color:#8000FF">do</span> <span style="color:#FF0000">|</span>config<span style="color:#FF0000">|</span>
+  <span style="color:#888888"># образ системы Ubuntu 18/04 LTS (Bionic Beaver)</span>
+  config<span style="color:#FF0000">.</span>vm<span style="color:#FF0000">.</span>box <span style="color:#FF0000">=</span> <span style="color:#0000FF">"bento/ubuntu-18.04"</span>
+  <span style="color:#888888"># не проверять репозиторий на наличие обновлений</span>
+  config<span style="color:#FF0000">.</span>vm<span style="color:#FF0000">.</span>box_check_update <span style="color:#FF0000">=</span> <span style="color:#DD00DD">false</span>
+  <span style="color:#888888"># отменить создание ssh-ключа</span>
+  config<span style="color:#FF0000">.</span>ssh<span style="color:#FF0000">.</span>insert_key <span style="color:#FF0000">=</span> <span style="color:#DD00DD">false</span>
+
+  <span style="color:#888888"># ПЕРВАЯ ВИРТУАЛЬНАЯ МАШИНА</span>
+  config<span style="color:#FF0000">.</span>vm<span style="color:#FF0000">.</span>define <span style="color:#0000FF">"web-server"</span> <span style="color:#8000FF">do</span> <span style="color:#FF0000">|</span>subconfig<span style="color:#FF0000">|</span>
+    <span style="color:#888888"># имя виртуальной машины</span>
+    subconfig<span style="color:#FF0000">.</span>vm<span style="color:#FF0000">.</span>provider <span style="color:#0000FF">"virtualbox"</span> <span style="color:#8000FF">do</span> <span style="color:#FF0000">|</span>vb<span style="color:#FF0000">|</span>
+      vb<span style="color:#FF0000">.</span>name <span style="color:#FF0000">=</span> <span style="color:#0000FF">"apache-server"</span>
+    <span style="color:#8000FF">end</span>
+    <span style="color:#888888"># hostname виртуальной машины</span>
+    subconfig<span style="color:#FF0000">.</span>vm<span style="color:#FF0000">.</span>hostname <span style="color:#FF0000">=</span> <span style="color:#0000FF">"apache-server"</span>
+    <span style="color:#888888"># настройки сети</span>
+    subconfig<span style="color:#FF0000">.</span>vm<span style="color:#FF0000">.</span>network <span style="color:#0000FF">"private_network"</span><span style="color:#FF0000">,</span> ip<span style="color:#FF0000">:</span> <span style="color:#0000FF">"192.168.53.3"</span>
+    <span style="color:#888888"># установка пакетов</span>
+    subconfig<span style="color:#FF0000">.</span>vm<span style="color:#FF0000">.</span>provision <span style="color:#0000FF">"apache"</span><span style="color:#FF0000">,</span> type<span style="color:#FF0000">:</span> <span style="color:#0000FF">"shell"</span><span style="color:#FF0000">,</span> inline<span style="color:#FF0000">:</span> <span style="color:#0000FF">"apt-get install -y apache2"</span>
+  <span style="color:#8000FF">end</span>
+
+  <span style="color:#888888"># ВТОРАЯ ВИРТУАЛЬНАЯ МАШИНА</span>
+  config<span style="color:#FF0000">.</span>vm<span style="color:#FF0000">.</span>define <span style="color:#0000FF">"sql-server"</span> <span style="color:#8000FF">do</span> <span style="color:#FF0000">|</span>subconfig<span style="color:#FF0000">|</span>
+    <span style="color:#888888"># имя виртуальной машины</span>
+    subconfig<span style="color:#FF0000">.</span>vm<span style="color:#FF0000">.</span>provider <span style="color:#0000FF">"virtualbox"</span> <span style="color:#8000FF">do</span> <span style="color:#FF0000">|</span>vb<span style="color:#FF0000">|</span>
+      vb<span style="color:#FF0000">.</span>name <span style="color:#FF0000">=</span> <span style="color:#0000FF">"mysql-server"</span>
+    <span style="color:#8000FF">end</span>
+    <span style="color:#888888"># hostname виртуальной машины</span>
+    subconfig<span style="color:#FF0000">.</span>vm<span style="color:#FF0000">.</span>hostname <span style="color:#FF0000">=</span> <span style="color:#0000FF">"mysql-server"</span>
+    <span style="color:#888888"># настройки сети</span>
+    subconfig<span style="color:#FF0000">.</span>vm<span style="color:#FF0000">.</span>network <span style="color:#0000FF">"private_network"</span><span style="color:#FF0000">,</span> ip<span style="color:#FF0000">:</span> <span style="color:#0000FF">"192.168.53.4"</span>
+    <span style="color:#888888"># установка пакетов</span>
+    subconfig<span style="color:#FF0000">.</span>vm<span style="color:#FF0000">.</span>provision <span style="color:#0000FF">"mysql"</span><span style="color:#FF0000">,</span> type<span style="color:#FF0000">:</span> <span style="color:#0000FF">"shell"</span><span style="color:#FF0000">,</span> inline<span style="color:#FF0000">:</span> <span style="color:#0000FF">"apt-get install -y mysql-server"</span>
+  <span style="color:#8000FF">end</span>
+  
+  <span style="color:#888888"># обновление системы (для первой и второй)</span>
+  config<span style="color:#FF0000">.</span>vm<span style="color:#FF0000">.</span>provision <span style="color:#0000FF">"update"</span><span style="color:#FF0000">,</span> type<span style="color:#FF0000">:</span> <span style="color:#0000FF">"shell"</span><span style="color:#FF0000">,</span> inline<span style="color:#FF0000">:</span> <span style="color:#0000FF">"apt-get update &amp;&amp; apt-get upgrade -y"</span>
+<span style="color:#8000FF">end</span><span class="copy">Копировать</span></pre>
+<p>
+Запускаем виртуальные машины:
+</p>
+<pre class="lang-cli" style="color:#0080FF"><span style="color:#AAAAAA">$</span> <span style="color:#8000FF">vagrant up</span>
+Bringing machine 'web-server' up with 'virtualbox' provider...
+Bringing machine 'sql-server' up with 'virtualbox' provider...<span class="copy">Копировать</span></pre>
+<p>
+Ход установки первой виртуальной машины:
+</p>
+<pre class="lang-cli" style="color:#0080FF">==&gt; web-server: Importing base box 'bento/ubuntu-18.04'...
+==&gt; web-server: Matching MAC address for NAT networking...
+==&gt; web-server: Setting the name of the VM: apache-server
+==&gt; web-server: Clearing any previously set network interfaces...
+==&gt; web-server: Preparing network interfaces based on configuration...
+    web-server: Adapter 1: nat
+    web-server: Adapter 2: hostonly
+==&gt; web-server: Forwarding ports...
+    web-server: 22 (guest) =&gt; 2222 (host) (adapter 1)
+==&gt; web-server: Booting VM...
+==&gt; web-server: Waiting for machine to boot. This may take a few minutes...
+    web-server: SSH address: 127.0.0.1:2222
+    web-server: SSH username: vagrant
+    web-server: SSH auth method: private key
+==&gt; web-server: Machine booted and ready!
+==&gt; web-server: Checking for guest additions in VM...
+==&gt; web-server: Setting hostname...
+==&gt; web-server: Configuring and enabling network interfaces...
+==&gt; web-server: Mounting shared folders...
+    web-server: /vagrant =&gt; D:/vagrant/www
+<span style="color:#008080">==&gt; web-server: Running provisioner: update (shell)...
+    web-server: Running: inline script</span>
+    <span style="color:#EE0000">********** обновление системы **********</span>
+<span style="color:#008080">==&gt; web-server: Running provisioner: apache (shell)...
+    web-server: Running: inline script</span>
+    <span style="color:#EE0000">********** установка Apache **********</span><span class="copy">Копировать</span></pre>
+<p>
+Ход установки второй виртуальной машины:
+</p>
+<pre class="lang-cli" style="color:#0080FF">==&gt; sql-server: Importing base box 'bento/ubuntu-18.04'...
+==&gt; sql-server: Matching MAC address for NAT networking...
+==&gt; sql-server: Setting the name of the VM: mysql-server
+==&gt; sql-server: Fixed port collision for 22 =&gt; 2222. Now on port 2200.
+==&gt; sql-server: Clearing any previously set network interfaces...
+==&gt; sql-server: Preparing network interfaces based on configuration...
+    sql-server: Adapter 1: nat
+    sql-server: Adapter 2: hostonly
+==&gt; sql-server: Forwarding ports...
+    sql-server: 22 (guest) =&gt; 2200 (host) (adapter 1)
+==&gt; sql-server: Booting VM...
+==&gt; sql-server: Waiting for machine to boot. This may take a few minutes...
+    sql-server: SSH address: 127.0.0.1:2200
+    sql-server: SSH username: vagrant
+    sql-server: SSH auth method: private key
+==&gt; sql-server: Machine booted and ready!
+==&gt; sql-server: Checking for guest additions in VM...
+==&gt; sql-server: Setting hostname...
+==&gt; sql-server: Configuring and enabling network interfaces...
+==&gt; sql-server: Mounting shared folders...
+    sql-server: /vagrant =&gt; D:/vagrant/www
+<span style="color:#008080">==&gt; sql-server: Running provisioner: update (shell)...
+    sql-server: Running: inline script</span>
+    <span style="color:#EE0000">********** обновление системы **********</span>
+<span style="color:#008080">==&gt; sql-server: Running provisioner: mysql (shell)...
+    sql-server: Running: inline script</span>
+    <span style="color:#EE0000">********** установка MySQL **********</span><span class="copy">Копировать</span></pre>
+<p>
+<a href="./Vagrant2_2_files/1.jpg" class="zoom"><img src="./Vagrant2_2_files/1.jpg" alt=""></a>
+</p>
+<p>
+Остановить обе виртуальные машины:
+</p>
+<pre class="lang-cli" style="color:#0080FF"><span style="color:#AAAAAA">$</span> <span style="color:#8000FF">vagrant halt</span>
+==&gt; sql-server: Attempting graceful shutdown of VM...
+==&gt; web-server: Attempting graceful shutdown of VM...<span class="copy">Копировать</span></pre>
+<p>
+Запустить обе виртуальные машины:
+</p>
+<pre class="lang-cli" style="color:#0080FF"><span style="color:#AAAAAA">$</span> <span style="color:#8000FF">vagrant up</span><span class="copy">Копировать</span></pre>
+<p>
+Подключение по ssh к первой машине:
+</p>
+<pre class="lang-cli" style="color:#0080FF"><span style="color:#AAAAAA">$</span> <span style="color:#8000FF">vagrant ssh web-server</span><span class="copy">Копировать</span></pre>
+<p>
+Остановить вторую виртуальную машину:
+</p>
+<pre class="lang-cli" style="color:#0080FF"><span style="color:#AAAAAA">$</span> <span style="color:#8000FF">vagrant halt sql-server</span><span class="copy">Копировать</span></pre>
+
+<h2>Установка Nginx, MySQL и PHP</h2>
+<p>
+Во время создания виртуальной машины Vagrant запустит скрипт <code>provision.sh</code>, который установит Nginx, MySQL, PHP + создаст два виртуальных хоста.
+</p>
+<pre class="lang-ruby" style="color:#008080">Vagrant<span style="color:#FF0000">.</span>configure<span style="color:#FF0000">(</span><span style="color:#FF00FF">2</span><span style="color:#FF0000">)</span> <span style="color:#8000FF">do</span> <span style="color:#FF0000">|</span>config<span style="color:#FF0000">|</span>
+  <span style="color:#888888"># образ системы Ubuntu 18/04 LTS (Bionic Beaver)</span>
+  config<span style="color:#FF0000">.</span>vm<span style="color:#FF0000">.</span>box <span style="color:#FF0000">=</span> <span style="color:#0000FF">"bento/ubuntu-18.04"</span>
+  <span style="color:#888888"># не проверять репозиторий на наличие обновлений</span>
+  config<span style="color:#FF0000">.</span>vm<span style="color:#FF0000">.</span>box_check_update <span style="color:#FF0000">=</span> <span style="color:#DD00DD">false</span>
+  <span style="color:#888888"># отменить создание ssh-ключа</span>
+  config<span style="color:#FF0000">.</span>ssh<span style="color:#FF0000">.</span>insert_key <span style="color:#FF0000">=</span> <span style="color:#DD00DD">false</span>
+
+  config<span style="color:#FF0000">.</span>vm<span style="color:#FF0000">.</span>provider <span style="color:#0000FF">"virtualbox"</span> <span style="color:#8000FF">do</span> <span style="color:#FF0000">|</span>vb<span style="color:#FF0000">|</span>
+    <span style="color:#888888"># имя виртуальной машины</span>
+    vb<span style="color:#FF0000">.</span>name <span style="color:#FF0000">=</span> <span style="color:#0000FF">"ubuntu-1804-test"</span>
+    <span style="color:#888888"># объем оперативной памяти</span>
+    vb<span style="color:#FF0000">.</span>memory <span style="color:#FF0000">=</span> <span style="color:#FF00FF">2048</span>
+    <span style="color:#888888"># количество ядер процессора</span>
+    vb<span style="color:#FF0000">.</span>cpus <span style="color:#FF0000">=</span> <span style="color:#FF00FF">1</span>
+  <span style="color:#8000FF">end</span>
+  
+  <span style="color:#888888"># hostname виртуальной машины</span>
+  config<span style="color:#FF0000">.</span>vm<span style="color:#FF0000">.</span>hostname <span style="color:#FF0000">=</span> <span style="color:#0000FF">"ubuntu-1804-test"</span>
+  <span style="color:#888888"># настройки сети</span>
+  config<span style="color:#FF0000">.</span>vm<span style="color:#FF0000">.</span>network <span style="color:#0000FF">"public_network"</span>
+  <span style="color:#888888"># синхронизация директорий</span>
+  config<span style="color:#FF0000">.</span>vm<span style="color:#FF0000">.</span>synced_folder <span style="color:#0000FF">"."</span><span style="color:#FF0000">,</span> <span style="color:#0000FF">"/var/www"</span>
+  <span style="color:#888888"># установка пакетов</span>
+  config<span style="color:#FF0000">.</span>vm<span style="color:#FF0000">.</span>provision <span style="color:#0000FF">"shell"</span><span style="color:#FF0000">,</span> path<span style="color:#FF0000">:</span> <span style="color:#0000FF">"provision.sh"</span>
+<span style="color:#8000FF">end</span><span class="copy">Копировать</span></pre>
+
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token command">apt</span>-get update
+<span class="token command">apt</span>-get <span class="token parameter">-y</span> upgrade
+
+<span class="token command">apt</span>-get <span class="token command">install</span> <span class="token parameter">-y</span> nginx
+<span class="token command">apt</span>-get <span class="token command">install</span> <span class="token parameter">-y</span> mysql-server
+<span class="token command">apt</span>-get <span class="token command">install</span> <span class="token parameter">-y</span> php-fpm php-mysql
+
+<span class="token comment"># создаем две директории для двух виртуальных хостов</span>
+<span class="token command">mkdir</span> /var/www/site1.loc
+<span class="token command">mkdir</span> /var/www/site2.loc
+<span class="token comment"># создаем в каждой из этих директорий php-файл</span>
+<span class="token builtin">echo</span> <span class="token string">'&lt;?php phpinfo(); ?&gt;'</span> <span class="token operator">&gt;</span> /var/www/site1.loc/index.php
+<span class="token builtin">echo</span> <span class="token string">'&lt;?php phpinfo(); ?&gt;'</span> <span class="token operator">&gt;</span> /var/www/site2.loc/index.php
+
+<span class="token comment"># создаем два виртуальных хоста</span>
+<span class="token command">cat</span> <span class="token operator">&gt;</span> /etc/nginx/sites-available/site1.loc <span class="token operator">&lt;&lt;</span><span class="token string">EOF
+server {
+    # слушать порт 80
+    listen 80;
+    # директория сайта
+    root /var/www/site1.loc;
+    # индексные файлы
+    index index.php index.html;
+    # домен сайта
+    server_name site1.loc www.site1.loc;
+
+    location / {
+        try_files \<span class="token variable">$uri</span> \<span class="token variable">$uri</span>/ =404;
+    }
+
+    # PHP скрипты передаются на выполнение FastCGI серверу
+    location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        # With php-fpm (or other unix sockets):
+        fastcgi_pass unix:/var/run/php/php7.2-fpm.sock;
+    }
+}
+EOF</span>
+
+<span class="token command">cat</span> <span class="token operator">&gt;</span> /etc/nginx/sites-available/site2.loc <span class="token operator">&lt;&lt;</span><span class="token string">EOF
+server {
+    # слушать порт 80
+    listen 80;
+    # директория сайта
+    root /var/www/site2.loc;
+    # индексные файлы
+    index index.php index.html;
+    # домен сайта
+    server_name site2.loc www.site2.loc;
+
+    location / {
+        try_files \<span class="token variable">$uri</span> \<span class="token variable">$uri</span>/ =404;
+    }
+
+    # PHP скрипты передаются на выполнение FastCGI серверу
+    location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        # With php-fpm (or other unix sockets):
+        fastcgi_pass unix:/var/run/php/php7.2-fpm.sock;
+    }
+}
+EOF</span>
+
+<span class="token command">ln</span> <span class="token parameter">-s</span> /etc/nginx/sites-available/site1.loc /etc/nginx/sites-enabled/
+<span class="token command">ln</span> <span class="token parameter">-s</span> /etc/nginx/sites-available/site2.loc /etc/nginx/sites-enabled/
+
+<span class="token builtin">echo</span> <span class="token string">''</span> <span class="token operator">&gt;&gt;</span> <span class="token string">'/etc/hosts'</span>
+<span class="token builtin">echo</span> <span class="token string">'127.0.0.1   site1.loc www.site1.loc'</span> <span class="token operator">&gt;&gt;</span> <span class="token string">'/etc/hosts'</span>
+<span class="token builtin">echo</span> <span class="token string">'127.0.0.1   site2.loc www.site2.loc'</span> <span class="token operator">&gt;&gt;</span> <span class="token string">'/etc/hosts'</span>
+
+systemctl reload nginx</code><span class="copy">Копировать</span></pre>
+
+<h2>Синхронизация директорий</h2>
+<p>
+По умолчанию синхронизируется директория, где расположен <code>Vagrantfile</code> на хост-системе с директорией <code>/vagrant</code> виртуальной машины. Это можно изменить с помощью настройки <code>config.vm.synced_folder</code>: указывается абсолютный или относительный путь для хост-системы и абсолютный — для виртуальной машины.
+</p>
+<p>
+В нашем случае синхронизируется директория <code>d:/vagrant/www</code> с директорией <code>/var/www</code>. Таким образом, будут синхронизированы и вложенные директории виртуальных хостов:
+</p>
+<pre class="lang-code" style="color:#0080FF">d:/vagrant/www/site1.loc &lt;=&gt; /var/www/site1.loc  # первый виртуальный хост
+d:/vagrant/www/site2.loc &lt;=&gt; /var/www/site2.loc  # второй виртуальный хост<span class="copy">Копировать</span></pre>
+<p>
+У меня в настройках для второго адаптера используется сетевой мост, так что виртуальная машина является частью той же сети, что и хост-система. Через web-интерфейс роутера, который выдает ip-адреса всем устройствам локальной сети, можно закрепить за виртуальной машиной выданный ip-адрес — у меня это 192.168.110.12. А чтобы получить доступ к сайтам на виртуальной машине — добавить пару записей в <code>host</code>-файл основной системы.
+</p>
+<pre class="lang-code" style="color:#0080FF">192.168.110.12   site1.loc www.site1.loc
+192.168.110.12   site2.loc www.site2.loc<span class="copy">Копировать</span></pre>
+
+<h2>Скрипт безопасности MySQL</h2>
+<p>
+У нас есть небольшая проблема с сервером MySQL — не задан пароль для <code>root</code>. Кроме того, пользователь <code>root</code> не может может подключаться по паролю, а только с помощью плагина <code>auth_socket</code>.
+</p>
+<p>
+Чтобы это исправить, нужно выполнить скрипт безопасности. После запуска скрипт задает вопросы и нам надо на них ответить:
+</p>
+<pre class="lang-cli" style="color:#0080FF"><span style="color:#FF9999">#</span> <span style="color:#8000FF">mysql_secure_installation</span><span class="copy">Копировать</span></pre>
+<ul>
+  <li>Would you like to setup VALIDATE PASSWORD plugin?</li>
+  <li>Please set the password for root here.</li>
+  <li>Re-enter new password.</li>
+  <li>Remove anonymous users?</li>
+  <li>Disallow root login remotely?</li>
+  <li>Remove test database and access to it?</li>
+  <li>Reload privilege tables now?</li>
+</ul>
+<p>
+В этом нам поможет <code>expect</code> — инструмент, который позволяет создать скрипт, который ответит на вопросы от скрипта безопасности MySQL. Подключимся к виртуальной машине по ssh и установим <code>expect</code>:
+</p>
+<pre class="lang-cli" style="color:#0080FF"><span style="color:#FF9999">#</span> <span style="color:#8000FF">apt install expect</span><span class="copy">Копировать</span></pre>
+<p>
+Вместе с <code>expect</code> будет установлен и <code>autoexpect</code>. Он позволяет запускать скрипты, которые надо автоматизировать, после чего записывает то, что они выводят, и то, что пользователь вводит, отвечая на их вопросы. Так что запускаем и отвечаем на вопросы:
+</p>
+<pre class="lang-cli" style="color:#0080FF"><span style="color:#FF9999">#</span> <span style="color:#8000FF">cd /var/www  <span style="color:#888888"># результат работы autoexpect будет в директрии d:/vagrant/www хост-машины</span></span>
+<span style="color:#FF9999">#</span> <span style="color:#8000FF">autoexpect mysql_secure_installation</span><span class="copy">Копировать</span></pre>
+<p>
+После завершения работы <code>autoexpect</code> сообщит о том, что собранные данные записаны в файл <code>script.exp</code>.
+</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token shebang important">#!/usr/bin/expect -f</span>
+<span class="token comment">#</span>
+<span class="token comment"># This Expect script was generated by autoexpect on Sun Nov 24 09:32:55 2019</span>
+<span class="token comment"># Expect and autoexpect were both written by Don Libes, NIST.</span>
+<span class="token comment">#</span>
+<span class="token comment"># Note that autoexpect does not guarantee a working script.  It</span>
+<span class="token comment"># necessarily has to guess about certain things.  Two reasons a script</span>
+<span class="token comment"># might fail are:</span>
+<span class="token comment">#</span>
+<span class="token comment"># 1) timing - A surprising number of programs (rn, ksh, zsh, telnet,</span>
+<span class="token comment"># etc.) and devices discard or ignore keystrokes that arrive "too</span>
+<span class="token comment"># quickly" after prompts.  If you find your new script hanging up at</span>
+<span class="token comment"># one spot, try adding a short sleep just before the previous send.</span>
+<span class="token comment"># Setting "force_conservative" to 1 (see below) makes Expect do this</span>
+<span class="token comment"># automatically - pausing briefly before sending each character.  This</span>
+<span class="token comment"># pacifies every program I know of.  The -c flag makes the script do</span>
+<span class="token comment"># this in the first place.  The -C flag allows you to define a</span>
+<span class="token comment"># character to toggle this mode off and on.</span>
+
+<span class="token builtin">set</span> force_conservative <span class="token number">0</span><span class="token punctuation">;</span> <span class="token comment"># set to 1 to force conservative mode even if</span>
+                        <span class="token punctuation">;</span> <span class="token comment"># script was not run conservatively originally</span>
+<span class="token keyword">if</span> <span class="token punctuation">{</span><span class="token variable">$force_conservative</span><span class="token punctuation">}</span> <span class="token punctuation">{</span>
+        <span class="token builtin">set</span> send_slow <span class="token punctuation">{</span><span class="token number">1</span> .1<span class="token punctuation">}</span>
+        proc send <span class="token punctuation">{</span>ignore arg<span class="token punctuation">}</span> <span class="token punctuation">{</span>
+                <span class="token command">sleep</span> .1
+                exp_send <span class="token parameter">-s</span> -- <span class="token variable">$arg</span>
+        <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">#</span>
+<span class="token comment"># 2) differing output - Some programs produce different output each time</span>
+<span class="token comment"># they run.  The "date" command is an obvious example.  Another is</span>
+<span class="token comment"># ftp, if it produces throughput statistics at the end of a file</span>
+<span class="token comment"># transfer.  If this causes a problem, delete these patterns or replace</span>
+<span class="token comment"># them with wildcards.  An alternative is to use the -p flag (for</span>
+<span class="token comment"># "prompt") which makes Expect only look for the last line of output</span>
+<span class="token comment"># (i.e., the prompt).  The -P flag allows you to define a character to</span>
+<span class="token comment"># toggle this mode off and on.</span>
+<span class="token comment">#</span>
+<span class="token comment"># Read the man page for more info.</span>
+<span class="token comment">#</span>
+<span class="token comment"># -Don</span>
+
+
+<span class="token builtin">set</span> <span class="token command">timeout</span> <span class="token parameter">-1</span>
+spawn mysql_secure_installation
+match_max <span class="token number">100000</span>
+<span class="token command">expect</span> <span class="token parameter">-exact</span> <span class="token string">"<span class="token entity" title="\r">\r</span>
+Securing the MySQL server deployment.<span class="token entity" title="\r">\r</span>
+<span class="token entity" title="\r">\r</span>
+Connecting to MySQL using a blank password.<span class="token entity" title="\r">\r</span>
+<span class="token entity" title="\r">\r</span>
+VALIDATE PASSWORD PLUGIN can be used to test passwords<span class="token entity" title="\r">\r</span>
+and improve security. It checks the strength of password<span class="token entity" title="\r">\r</span>
+and allows the users to set only those passwords which are<span class="token entity" title="\r">\r</span>
+secure enough. Would you like to setup VALIDATE PASSWORD plugin?<span class="token entity" title="\r">\r</span>
+<span class="token entity" title="\r">\r</span>
+Press y|Y for Yes, any other key for No: "</span>
+send -- <span class="token string">"N<span class="token entity" title="\r">\r</span>"</span>
+<span class="token command">expect</span> <span class="token parameter">-exact</span> <span class="token string">"N<span class="token entity" title="\r">\r</span>
+Please set the password for root here.<span class="token entity" title="\r">\r</span>
+<span class="token entity" title="\r">\r</span>
+New password: "</span>
+send -- <span class="token string">"qwerty<span class="token entity" title="\r">\r</span>"</span>
+<span class="token command">expect</span> <span class="token parameter">-exact</span> <span class="token string">"<span class="token entity" title="\r">\r</span>
+<span class="token entity" title="\r">\r</span>
+Re-enter new password: "</span>
+send -- <span class="token string">"qwerty<span class="token entity" title="\r">\r</span>"</span>
+<span class="token command">expect</span> <span class="token parameter">-exact</span> <span class="token string">"<span class="token entity" title="\r">\r</span>
+By default, a MySQL installation has an anonymous user,<span class="token entity" title="\r">\r</span>
+allowing anyone to log into MySQL without having to have<span class="token entity" title="\r">\r</span>
+a user account created for them. This is intended only for<span class="token entity" title="\r">\r</span>
+testing, and to make the installation go a bit smoother.<span class="token entity" title="\r">\r</span>
+You should remove them before moving into a production<span class="token entity" title="\r">\r</span>
+environment.<span class="token entity" title="\r">\r</span>
+<span class="token entity" title="\r">\r</span>
+Remove anonymous users? (Press y|Y for Yes, any other key for No) : "</span>
+send -- <span class="token string">"Y<span class="token entity" title="\r">\r</span>"</span>
+<span class="token command">expect</span> <span class="token parameter">-exact</span> <span class="token string">"Y<span class="token entity" title="\r">\r</span>
+Success.<span class="token entity" title="\r">\r</span>
+<span class="token entity" title="\r">\r</span>
+<span class="token entity" title="\r">\r</span>
+Normally, root should only be allowed to connect from<span class="token entity" title="\r">\r</span>
+'localhost'. This ensures that someone cannot guess at<span class="token entity" title="\r">\r</span>
+the root password from the network.<span class="token entity" title="\r">\r</span>
+<span class="token entity" title="\r">\r</span>
+Disallow root login remotely? (Press y|Y for Yes, any other key for No) : "</span>
+send -- <span class="token string">"Y<span class="token entity" title="\r">\r</span>"</span>
+<span class="token command">expect</span> <span class="token parameter">-exact</span> <span class="token string">"Y<span class="token entity" title="\r">\r</span>
+Success.<span class="token entity" title="\r">\r</span>
+<span class="token entity" title="\r">\r</span>
+By default, MySQL comes with a database named 'test' that<span class="token entity" title="\r">\r</span>
+anyone can access. This is also intended only for testing,<span class="token entity" title="\r">\r</span>
+and should be removed before moving into a production<span class="token entity" title="\r">\r</span>
+environment.<span class="token entity" title="\r">\r</span>
+<span class="token entity" title="\r">\r</span>
+<span class="token entity" title="\r">\r</span>
+Remove test database and access to it? (Press y|Y for Yes, any other key for No) : "</span>
+send -- <span class="token string">"Y<span class="token entity" title="\r">\r</span>"</span>
+<span class="token command">expect</span> <span class="token parameter">-exact</span> <span class="token string">"Y<span class="token entity" title="\r">\r</span>
+ - Dropping test database...<span class="token entity" title="\r">\r</span>
+Success.<span class="token entity" title="\r">\r</span>
+<span class="token entity" title="\r">\r</span>
+ - Removing privileges on test database...<span class="token entity" title="\r">\r</span>
+Success.<span class="token entity" title="\r">\r</span>
+<span class="token entity" title="\r">\r</span>
+Reloading the privilege tables will ensure that all changes<span class="token entity" title="\r">\r</span>
+made so far will take effect immediately.<span class="token entity" title="\r">\r</span>
+<span class="token entity" title="\r">\r</span>
+Reload privilege tables now? (Press y|Y for Yes, any other key for No) : "</span>
+send -- <span class="token string">"Y<span class="token entity" title="\r">\r</span>"</span>
+<span class="token command">expect</span> eof</code><span class="copy">Копировать</span></pre>
+<p>
+Изменим имя скрипта (это можно сделать и в директриии <code>d:/vagrant/www</code>):
+</p>
+<pre class="lang-cli" style="color:#0080FF"><span style="color:#FF9999">#</span> <span style="color:#8000FF">mv script.exp mysql_sec.sh</span><span class="copy">Копировать</span></pre>
+<p>
+Запросы, которые нужно выполнить, чтобы <code>root</code> мог подключаться по паролю:
+</p>
+<pre class="lang-mysql" style="color:#8000FF">ALTER USER <span style="color:#0080FF">'root'</span><span style="color:#FF0000">@</span><span style="color:#0080FF">'localhost'</span> IDENTIFIED WITH mysql_native_password BY <span style="color:#0080FF">'qwerty'</span><span style="color:#FF0000">;</span>
+FLUSH PRIVILEGES<span style="color:#FF0000">;</span><span class="copy">Копировать</span></pre>
+<p>
+После этого удаляем виртуальную машину и создаем заново. Но предварительно изменяем кофигурационный файл:
+</p>
+<pre class="lang-ruby" style="color:#008080">Vagrant<span style="color:#FF0000">.</span>configure<span style="color:#FF0000">(</span><span style="color:#FF00FF">2</span><span style="color:#FF0000">)</span> <span style="color:#8000FF">do</span> <span style="color:#FF0000">|</span>config<span style="color:#FF0000">|</span>
+  <span style="color:#888888"># образ системы Ubuntu 18/04 LTS (Bionic Beaver)</span>
+  config<span style="color:#FF0000">.</span>vm<span style="color:#FF0000">.</span>box <span style="color:#FF0000">=</span> <span style="color:#0000FF">"bento/ubuntu-18.04"</span>
+  <span style="color:#888888"># не проверять репозиторий на наличие обновлений</span>
+  config<span style="color:#FF0000">.</span>vm<span style="color:#FF0000">.</span>box_check_update <span style="color:#FF0000">=</span> <span style="color:#DD00DD">false</span>
+  <span style="color:#888888"># отменить создание ssh-ключа</span>
+  config<span style="color:#FF0000">.</span>ssh<span style="color:#FF0000">.</span>insert_key <span style="color:#FF0000">=</span> <span style="color:#DD00DD">false</span>
+
+  config<span style="color:#FF0000">.</span>vm<span style="color:#FF0000">.</span>provider <span style="color:#0000FF">"virtualbox"</span> <span style="color:#8000FF">do</span> <span style="color:#FF0000">|</span>vb<span style="color:#FF0000">|</span>
+    <span style="color:#888888"># имя виртуальной машины</span>
+    vb<span style="color:#FF0000">.</span>name <span style="color:#FF0000">=</span> <span style="color:#0000FF">"ubuntu-1804-test"</span>
+    <span style="color:#888888"># объем оперативной памяти</span>
+    vb<span style="color:#FF0000">.</span>memory <span style="color:#FF0000">=</span> <span style="color:#FF00FF">2048</span>
+    <span style="color:#888888"># количество ядер процессора</span>
+    vb<span style="color:#FF0000">.</span>cpus <span style="color:#FF0000">=</span> <span style="color:#FF00FF">1</span>
+  <span style="color:#8000FF">end</span>
+  
+  <span style="color:#888888"># hostname виртуальной машины</span>
+  config<span style="color:#FF0000">.</span>vm<span style="color:#FF0000">.</span>hostname <span style="color:#FF0000">=</span> <span style="color:#0000FF">"ubuntu-1804-test"</span>
+  <span style="color:#888888"># настройки сети</span>
+  config<span style="color:#FF0000">.</span>vm<span style="color:#FF0000">.</span>network <span style="color:#0000FF">"public_network"</span>
+  <span style="color:#888888"># синхронизация директорий</span>
+  config<span style="color:#FF0000">.</span>vm<span style="color:#FF0000">.</span>synced_folder <span style="color:#0000FF">"."</span><span style="color:#FF0000">,</span> <span style="color:#0000FF">"/var/www"</span>
+  <span style="color:#888888"># установка пакетов</span>
+  config<span style="color:#FF0000">.</span>vm<span style="color:#FF0000">.</span>provision <span style="color:#0000FF">"shell"</span><span style="color:#FF0000">,</span> path<span style="color:#FF0000">:</span> <span style="color:#0000FF">"provision.sh"</span>
+  config<span style="color:#FF0000">.</span>vm<span style="color:#FF0000">.</span>provision <span style="color:#0000FF">"shell"</span><span style="color:#FF0000">,</span> inline<span style="color:#FF0000">:</span> <span style="color:#0000FF">"apt-get install -y expect"</span>
+  config<span style="color:#FF0000">.</span>vm<span style="color:#FF0000">.</span>provision <span style="color:#0000FF">"shell"</span><span style="color:#FF0000">,</span> path<span style="color:#FF0000">:</span> <span style="color:#0000FF">"mysql_sec.sh"</span>
+  config<span style="color:#FF0000">.</span>vm<span style="color:#FF0000">.</span>provision <span style="color:#0000FF">"shell"</span><span style="color:#FF0000">,</span> inline<span style="color:#FF0000">:</span> <span style="color:#BB00BB">&lt;&lt;-QUERY
+    mysql -uroot -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'qwerty'; FLUSH PRIVILEGES;"
+  QUERY</span>
+<span style="color:#8000FF">end</span><span class="copy">Копировать</span></pre>
+
+<h2>Основные команды</h2>
+<p>
+Проверить файл конфигурации <code>Vagrantfile</code>:
+</p>
+<pre class="lang-cli" style="color:#0080FF"><span style="color:#AAAAAA">$</span> <span style="color:#8000FF">vagrant validate</span><span class="copy">Копировать</span></pre>
+<p>
+Запустить или создать виртуальную машину:
+</p>
+<pre class="lang-cli" style="color:#0080FF"><span style="color:#AAAAAA">$</span> <span style="color:#8000FF">vagrant up</span><span class="copy">Копировать</span></pre>
+<p>
+Приостанавить работу виртуальной машины
+</p>
+<pre class="lang-cli" style="color:#0080FF"><span style="color:#AAAAAA">$</span> <span style="color:#8000FF">vagrant suspend</span><span class="copy">Копировать</span></pre>
+<p>
+Возобновить работу виртуальной машины:
+</p>
+<pre class="lang-cli" style="color:#0080FF"><span style="color:#AAAAAA">$</span> <span style="color:#8000FF">vagrant resume </span><span class="copy">Копировать</span></pre>
+<p>
+Перезагрузить виртуальную машину:
+</p>
+<pre class="lang-cli" style="color:#0080FF"><span style="color:#AAAAAA">$</span> <span style="color:#8000FF">vagrant reload</span><span class="copy">Копировать</span></pre>
+<pre class="lang-cli" style="color:#0080FF"><span style="color:#AAAAAA">$</span> <span style="color:#8000FF">vagrant reload --provision</span><span class="copy">Копировать</span></pre>
+<p>
+Подключиться к виртуальной машине по ssh:
+</p>
+<pre class="lang-cli" style="color:#0080FF"><span style="color:#AAAAAA">$</span> <span style="color:#8000FF">vagrant ssh</span><span class="copy">Копировать</span></pre>
+<p>
+Посмотреть настройки подключения по ssh:
+</p>
+<pre class="lang-cli" style="color:#0080FF"><span style="color:#AAAAAA">$</span> <span style="color:#8000FF">vagrant ssh-config</span><span class="copy">Копировать</span></pre>
+<p>
+Остановить виртуальную машину:
+</p>
+<pre class="lang-cli" style="color:#0080FF"><span style="color:#AAAAAA">$</span> <span style="color:#8000FF">vagrant halt</span><span class="copy">Копировать</span></pre>
+<p>
+Удалить виртуальную машину:
+</p>
+<pre class="lang-cli" style="color:#0080FF"><span style="color:#AAAAAA">$</span> <span style="color:#8000FF">vagrant destroy</span><span class="copy">Копировать</span></pre>
+<p>
+Проверить состояние виртуальной машины:
+</p>
+<pre class="lang-cli" style="color:#0080FF"><span style="color:#AAAAAA">$</span> <span style="color:#8000FF">vagrant status</span><span class="copy">Копировать</span></pre>
+<p>
+Проверить состояние всех виртуальных машин:
+</p>
+<pre class="lang-cli" style="color:#0080FF"><span style="color:#AAAAAA">$</span> <span style="color:#8000FF">vagrant global-status</span><span class="copy">Копировать</span></pre>
+<p>
+Посмотреть все доступные команды:
+</p>
+<pre class="lang-cli" style="color:#0080FF"><span style="color:#AAAAAA">$</span> <span style="color:#8000FF">vagrant --help</span><span class="copy">Копировать</span></pre>            <div class="liked-posts">
+            <ul>
+                            <li><a href="https://tokmakov.msk.ru/blog/item/434">Vagrant. Начало работы. Часть 1 из 2</a></li>
+                            <li><a href="https://tokmakov.msk.ru/blog/item/488">Начало работы с Docker. Часть четвертая</a></li>
+                            <li><a href="https://tokmakov.msk.ru/blog/item/433">Установка Nginx, MySQL и PHP на Ubuntu 18.04 LTS</a></li>
+                            <li><a href="https://tokmakov.msk.ru/blog/item/489">Начало работы с Docker. Часть пятая</a></li>
+                            <li><a href="https://tokmakov.msk.ru/blog/item/456">Создание SSH-туннеля. Часть 2 из 4</a></li>
+                            <li><a href="https://tokmakov.msk.ru/blog/item/431">Установка Apache, MySQL и PHP на Ubuntu 18.04 LTS</a></li>
+                            <li><a href="https://tokmakov.msk.ru/blog/item/735">Две версии MySQL на Windows 10</a></li>
+                        </ul>
+        </div>
+                <p class="post-keys">
+            Поиск:
+            <a href="https://tokmakov.msk.ru/blog/search/query/MySQL">MySQL</a>&nbsp;• <a href="https://tokmakov.msk.ru/blog/search/query/Nginx">Nginx</a>&nbsp;• <a href="https://tokmakov.msk.ru/blog/search/query/PHP">PHP</a>&nbsp;• <a href="https://tokmakov.msk.ru/blog/search/query/Ubuntu">Ubuntu</a>&nbsp;• <a href="https://tokmakov.msk.ru/blog/search/query/Web-%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0">Web-разработка</a>&nbsp;• <a href="https://tokmakov.msk.ru/blog/search/query/%D0%92%D0%B8%D1%80%D1%82%D1%83%D0%B0%D0%BB%D1%8C%D0%BD%D0%B0%D1%8F%20%D0%BC%D0%B0%D1%88%D0%B8%D0%BD%D0%B0">Виртуальная машина</a>&nbsp;• <a href="https://tokmakov.msk.ru/blog/search/query/%D0%A3%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B0">Установка</a>&nbsp;• <a href="https://tokmakov.msk.ru/blog/search/query/%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B0">Настройка</a>&nbsp;• <a href="https://tokmakov.msk.ru/blog/search/query/Vagrant">Vagrant</a>&nbsp;• <a href="https://tokmakov.msk.ru/blog/search/query/CLI">CLI</a>        </p>
+    </div>
+
+<!-- Конец шаблона view/example/frontend/template/blog/post/center.php -->
+        </div>
+    </div>
+    <div id="left">
+        
+<!-- Начало шаблона view/example/frontend/template/left.php -->
+
+<div>
+    <div>Каталог оборудования</div>
+    <div>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+    </div>
+</div>
+
+<div>
+    <div>Производители</div>
+    <div>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+    </div>
+</div>
+
+<div>
+    <div>Функциональные группы</div>
+    <div>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+    </div>
+</div>
+
+<!-- Конец шаблона view/example/frontend/template/left.php -->
+    </div>
+    <div id="right">
+        
+<!-- Начало шаблона view/example/frontend/template/right.php -->
+
+<div>
+    <div>Категории блога</div>
+    <div>
+            <ul>
+                    <li>
+                <a href="https://tokmakov.msk.ru/blog/category/1">Web-разработка</a>
+                                    <ul>
+                                            <li><a href="https://tokmakov.msk.ru/blog/category/4">HTML и CSS</a></li>
+                                            <li><a href="https://tokmakov.msk.ru/blog/category/5">JavaScript и TypeScript</a></li>
+                                            <li><a href="https://tokmakov.msk.ru/blog/category/6">PHP и MySQL</a></li>
+                                            <li><a href="https://tokmakov.msk.ru/blog/category/17">CMS Битрикс</a></li>
+                                            <li><a href="https://tokmakov.msk.ru/blog/category/19">CMS WoprdPress</a></li>
+                                            <li><a href="https://tokmakov.msk.ru/blog/category/18">Yii2 и Laravel</a></li>
+                                            <li><a href="https://tokmakov.msk.ru/blog/category/14">Python и Flask</a></li>
+                                            <li><a href="https://tokmakov.msk.ru/blog/category/22">Web-аналитика</a></li>
+                                            <li><a href="https://tokmakov.msk.ru/blog/category/11">Разное</a></li>
+                                        </ul>
+                            </li>
+                    <li>
+                <a href="https://tokmakov.msk.ru/blog/category/3">ОС Linux</a>
+                                    <ul>
+                                            <li><a href="https://tokmakov.msk.ru/blog/category/9">Команды</a></li>
+                                            <li><a href="https://tokmakov.msk.ru/blog/category/10">Сценарии</a></li>
+                                            <li><a href="https://tokmakov.msk.ru/blog/category/13">Разное</a></li>
+                                        </ul>
+                            </li>
+                    <li>
+                <a href="https://tokmakov.msk.ru/blog/category/2">1С:Предприятие</a>
+                                    <ul>
+                                            <li><a href="https://tokmakov.msk.ru/blog/category/7">Программирование</a></li>
+                                            <li><a href="https://tokmakov.msk.ru/blog/category/8">Язык запросов</a></li>
+                                            <li><a href="https://tokmakov.msk.ru/blog/category/12">Разное</a></li>
+                                        </ul>
+                            </li>
+                    <li>
+                <a href="https://tokmakov.msk.ru/blog/category/20">Локальная сеть</a>
+                                    <ul>
+                                            <li><a href="https://tokmakov.msk.ru/blog/category/21">Разное</a></li>
+                                        </ul>
+                            </li>
+                </ul>
+        </div>
+</div>
+
+<div>
+    <div>Облако тегов</div>
+    <div>
+                    <ul class="side-tags">
+                            <li>
+                    <a href="https://tokmakov.msk.ru/blog/tags/10" title="1С:Предприятие">1С:Предприятие</a>&nbsp;(31)
+                </li>
+                            <li>
+                    <a href="https://tokmakov.msk.ru/blog/tags/263" title="API">API</a>&nbsp;(29)
+                </li>
+                            <li>
+                    <a href="https://tokmakov.msk.ru/blog/tags/29" title="Bash">Bash</a>&nbsp;(43)
+                </li>
+                            <li>
+                    <a href="https://tokmakov.msk.ru/blog/tags/15" title="CLI">CLI</a>&nbsp;(126)
+                </li>
+                            <li>
+                    <a href="https://tokmakov.msk.ru/blog/tags/95" title="CMS">CMS</a>&nbsp;(139)
+                </li>
+                            <li>
+                    <a href="https://tokmakov.msk.ru/blog/tags/4" title="CSS">CSS</a>&nbsp;(50)
+                </li>
+                            <li>
+                    <a href="https://tokmakov.msk.ru/blog/tags/317" title="Frontend">Frontend</a>&nbsp;(75)
+                </li>
+                            <li>
+                    <a href="https://tokmakov.msk.ru/blog/tags/3" title="HTML">HTML</a>&nbsp;(66)
+                </li>
+                            <li>
+                    <a href="https://tokmakov.msk.ru/blog/tags/5" title="JavaScript">JavaScript</a>&nbsp;(150)
+                </li>
+                            <li>
+                    <a href="https://tokmakov.msk.ru/blog/tags/314" title="Laravel">Laravel</a>&nbsp;(72)
+                </li>
+                            <li>
+                    <a href="https://tokmakov.msk.ru/blog/tags/1" title="Linux">Linux</a>&nbsp;(177)
+                </li>
+                            <li>
+                    <a href="https://tokmakov.msk.ru/blog/tags/8" title="MySQL">MySQL</a>&nbsp;(77)
+                </li>
+                            <li>
+                    <a href="https://tokmakov.msk.ru/blog/tags/7" title="PHP">PHP</a>&nbsp;(126)
+                </li>
+                            <li>
+                    <a href="https://tokmakov.msk.ru/blog/tags/296" title="React.js">React.js</a>&nbsp;(66)
+                </li>
+                            <li>
+                    <a href="https://tokmakov.msk.ru/blog/tags/43" title="SSH">SSH</a>&nbsp;(27)
+                </li>
+                            <li>
+                    <a href="https://tokmakov.msk.ru/blog/tags/27" title="Ubuntu">Ubuntu</a>&nbsp;(71)
+                </li>
+                            <li>
+                    <a href="https://tokmakov.msk.ru/blog/tags/9" title="Web-разработка">Web-разработка</a>&nbsp;(509)
+                </li>
+                            <li>
+                    <a href="https://tokmakov.msk.ru/blog/tags/278" title="WordPress">WordPress</a>&nbsp;(73)
+                </li>
+                            <li>
+                    <a href="https://tokmakov.msk.ru/blog/tags/277" title="Yii2">Yii2</a>&nbsp;(69)
+                </li>
+                            <li>
+                    <a href="https://tokmakov.msk.ru/blog/tags/87" title="БазаДанных">БазаДанных</a>&nbsp;(95)
+                </li>
+                            <li>
+                    <a href="https://tokmakov.msk.ru/blog/tags/141" title="Битрикс">Битрикс</a>&nbsp;(66)
+                </li>
+                            <li>
+                    <a href="https://tokmakov.msk.ru/blog/tags/315" title="Блог">Блог</a>&nbsp;(29)
+                </li>
+                            <li>
+                    <a href="https://tokmakov.msk.ru/blog/tags/268" title="Верстка">Верстка</a>&nbsp;(43)
+                </li>
+                            <li>
+                    <a href="https://tokmakov.msk.ru/blog/tags/237" title="ИнтернетМагазин">ИнтернетМагаз…</a>&nbsp;(84)
+                </li>
+                            <li>
+                    <a href="https://tokmakov.msk.ru/blog/tags/227" title="КаталогТоваров">КаталогТоваров</a>&nbsp;(87)
+                </li>
+                            <li>
+                    <a href="https://tokmakov.msk.ru/blog/tags/149" title="Класс">Класс</a>&nbsp;(30)
+                </li>
+                            <li>
+                    <a href="https://tokmakov.msk.ru/blog/tags/305" title="Клиент">Клиент</a>&nbsp;(29)
+                </li>
+                            <li>
+                    <a href="https://tokmakov.msk.ru/blog/tags/122" title="Ключ">Ключ</a>&nbsp;(31)
+                </li>
+                            <li>
+                    <a href="https://tokmakov.msk.ru/blog/tags/2" title="Команда">Команда</a>&nbsp;(90)
+                </li>
+                            <li>
+                    <a href="https://tokmakov.msk.ru/blog/tags/173" title="Компонент">Компонент</a>&nbsp;(60)
+                </li>
+                            <li>
+                    <a href="https://tokmakov.msk.ru/blog/tags/11" title="Конфигурация">Конфигурация</a>&nbsp;(74)
+                </li>
+                            <li>
+                    <a href="https://tokmakov.msk.ru/blog/tags/236" title="Корзина">Корзина</a>&nbsp;(32)
+                </li>
+                            <li>
+                    <a href="https://tokmakov.msk.ru/blog/tags/300" title="ЛокальнаяСеть">ЛокальнаяСеть</a>&nbsp;(33)
+                </li>
+                            <li>
+                    <a href="https://tokmakov.msk.ru/blog/tags/36" title="Модуль">Модуль</a>&nbsp;(34)
+                </li>
+                            <li>
+                    <a href="https://tokmakov.msk.ru/blog/tags/225" title="Навигация">Навигация</a>&nbsp;(31)
+                </li>
+                            <li>
+                    <a href="https://tokmakov.msk.ru/blog/tags/266" title="Настройка">Настройка</a>&nbsp;(151)
+                </li>
+                            <li>
+                    <a href="https://tokmakov.msk.ru/blog/tags/291" title="ПанельУправления">ПанельУправле…</a>&nbsp;(29)
+                </li>
+                            <li>
+                    <a href="https://tokmakov.msk.ru/blog/tags/19" title="Плагин">Плагин</a>&nbsp;(33)
+                </li>
+                            <li>
+                    <a href="https://tokmakov.msk.ru/blog/tags/259" title="Пользователь">Пользователь</a>&nbsp;(26)
+                </li>
+                            <li>
+                    <a href="https://tokmakov.msk.ru/blog/tags/285" title="Практика">Практика</a>&nbsp;(101)
+                </li>
+                            <li>
+                    <a href="https://tokmakov.msk.ru/blog/tags/301" title="Сервер">Сервер</a>&nbsp;(84)
+                </li>
+                            <li>
+                    <a href="https://tokmakov.msk.ru/blog/tags/255" title="Событие">Событие</a>&nbsp;(28)
+                </li>
+                            <li>
+                    <a href="https://tokmakov.msk.ru/blog/tags/284" title="Теория">Теория</a>&nbsp;(106)
+                </li>
+                            <li>
+                    <a href="https://tokmakov.msk.ru/blog/tags/170" title="Установка">Установка</a>&nbsp;(75)
+                </li>
+                            <li>
+                    <a href="https://tokmakov.msk.ru/blog/tags/35" title="Файл">Файл</a>&nbsp;(51)
+                </li>
+                            <li>
+                    <a href="https://tokmakov.msk.ru/blog/tags/138" title="Форма">Форма</a>&nbsp;(58)
+                </li>
+                            <li>
+                    <a href="https://tokmakov.msk.ru/blog/tags/275" title="Фреймворк">Фреймворк</a>&nbsp;(192)
+                </li>
+                            <li>
+                    <a href="https://tokmakov.msk.ru/blog/tags/129" title="Функция">Функция</a>&nbsp;(36)
+                </li>
+                            <li>
+                    <a href="https://tokmakov.msk.ru/blog/tags/214" title="ШаблонСайта">ШаблонСайта</a>&nbsp;(68)
+                </li>
+                        </ul>
+                <a href="https://tokmakov.msk.ru/blog/alltags" class="all-tags">Все теги</a>
+    </div>
+</div>
+
+<div>
+    <div>Категории статей</div>
+    <div>
+            <ul>
+                    <li>
+                <a href="https://tokmakov.msk.ru/articles/category/1">Web-разработка</a>
+                            </li>
+                    <li>
+                <a href="https://tokmakov.msk.ru/articles/category/2">1С:Предприятие</a>
+                            </li>
+                    <li>
+                <a href="https://tokmakov.msk.ru/articles/category/3">ОС Linux</a>
+                            </li>
+                    <li>
+                <a href="https://tokmakov.msk.ru/articles/category/15">Регулярные выражения</a>
+                            </li>
+                    <li>
+                <a href="https://tokmakov.msk.ru/articles/category/14">Разное</a>
+                            </li>
+                </ul>
+        </div>
+</div>
+<!--
+<div>
+    <div>Вы уже смотрели</div>
+    <div>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+    </div>
+</div>
+-->
+<!-- Конец шаблона view/example/frontend/template/right.php -->
+    </div>
+</div>
+
+<div id="footer">
+    <div class="wrapper">
+        
+<!-- Начало шаблона view/example/frontend/template/footer.php -->
+
+Узелки на память: Web-разработка, 1С:Предприятие, ОС Linux
+
+<!-- Конец шаблона view/example/frontend/template/footer.php -->
+    </div>
+</div>
+
+
+
+
+
+
+<script type="text/javascript" id="">(function(a,e,f,g,b,c,d){a[b]=a[b]||function(){(a[b].a=a[b].a||[]).push(arguments)};a[b].l=1*new Date;c=e.createElement(f);d=e.getElementsByTagName(f)[0];c.async=1;c.src=g;d.parentNode.insertBefore(c,d)})(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");ym(53598484,"init",{clickmap:!0,trackLinks:!0,accurateTrackBounce:!0,webvisor:!0});</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/53598484" style="position:absolute; left:-9999px;" alt=""></div></noscript>
+</body></html>

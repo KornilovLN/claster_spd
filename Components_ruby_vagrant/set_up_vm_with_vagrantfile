@@ -1,0 +1,87 @@
+# Usage:
+# vagrant up on_ubuntu
+
+'''
+config.vm.box_download_insecure = true: Разрешает загрузку образов виртуальных машин
+                                        из небезопасных источников.
+
+config.vm.box_download_folder = "~/virt/vm_sunpp": Указывает Vagrant загружать
+                                        и распаковывать образ виртуальной машины
+                                        в директории ~/virt/vm_sunpp.
+
+config.vm.synced_folder "~/virt/vm_sunpp", "/vagrant": Монтирует директорию ~/virt/vm_sunpp
+                                        как /vagrant внутри виртуальной машины,
+                                        что позволяет легко обмениваться файлами
+                                        между хост-машиной и виртуальной машиной.
+
+on_debian.vm.box = "ubuntu/bionic64": Указывает использовать образ "ubuntu/bionic64" 
+                                        (Ubuntu 18.04 LTS 64-bit)
+                                        для создания виртуальной машины.
+
+on_debian.vm.network "private_network", ip: "172.16.0.8":
+                                      Настраивает виртуальную машину для использования
+                                      приватной сети с IP-адресом 172.16.0.8.
+
+on_debian.vm.hostname = "sunpp": Задает имя хоста (hostname) виртуальной машины как "sunpp".
+
+on_debian.vm.provider :virtualbox do |vb| ... end: Настраивает провайдер VirtualBox для
+                                      виртуальной машины, задавая имя "sunpp",
+                                      9096 МБ оперативной памяти и 2 ЦП.
+
+on_debian.vm.provision "shell", inline: <<-SHELL ... SHELL: Выполняет команды оболочки (shell)
+                                      для настройки виртуальной машины после ее создания,
+                                      включая установку curl, python3, docker.io, git
+                                      и добавление записей в /etc/hosts.
+
+После выполнения команды vagrant up в директории, содержащей этот Vagrantfile,
+                                      Vagrant создаст виртуальную машину Ubuntu 18.04
+                                      с указанными настройками в директории ~/virt/vm_sunpp.
+ШАГИ:                                      
+mkdir -p ~/virt/vm_sunpp
+mv set_up_vm_with_vagrantfile ~/virt/vm_sunpp/set_up_vm_with_vagrantfile
+cd ~/virt/vm_sunpp
+vagrant up  # создаст VM
+'''
+
+# Указываем необходимую версию Vagrant
+Vagrant.require_version ">= 1.7.0"
+
+Vagrant.configure("2") do |config|
+
+  # Конфигурация виртуальной машины для Ubuntu с именем "on_ubuntu"
+  config.vm.box_download_insecure = true
+  config.vm.synced_folder "~/virt/vm_sunpp", "/vagrant"
+  config.vm.define "on_ubuntu", autostart: true do |on_debian|
+
+    # Используем образ "ubuntu/bionic64" для виртуальной машины
+    on_debian.vm.box = "ubuntu/bionic64"
+
+    # Настраиваем сеть виртуальной машины: приватная сеть с IP-адресом 172.16.0.8
+    on_debian.vm.network "private_network", ip: "172.16.0.8"
+
+    # Задаем hostname для виртуальной машины
+    on_debian.vm.hostname = "sunpp"
+
+    # Настройка провайдера виртуальной машины (VirtualBox)
+    on_debian.vm.provider :virtualbox do |vb|
+      vb.name = "sunpp"
+      vb.memory = 9096
+      vb.cpus = 2
+      vb.customize ["createhd", "--filename", "disk.vdi", "--size", 20 * 1024]
+      vb.customize ["storageattach", :id, "--storagectl", "SATA Controller", "--port", 1, "--device", 0, "--type", "hdd", "--medium", "disk.vdi"]
+
+    end
+
+    # Провижнинг (настройка) виртуальной машины через shell скрипт
+    on_debian.vm.provision "shell", inline: <<-SHELL
+      apt-get update
+      apt install -y curl python3
+      bash -c "echo '172.16.0.1 sdn.dc.cns.atom registry.dc.cns.atom' >> /etc/hosts"
+      bash -c "cd /vagrant/;./net-install.sh setup"
+      apt-get update
+      apt-get install -y docker.io git
+    SHELL
+
+  end
+
+end
